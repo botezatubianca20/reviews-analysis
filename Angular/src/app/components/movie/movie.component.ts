@@ -10,6 +10,8 @@ import { ActivatedRoute } from '@angular/router';
 export class MovieComponent implements OnInit {
   pelicula: any = {};
   loadingPelicula: boolean;
+  reviewId: any;
+  review: any = {};
 
 
   constructor(private router: ActivatedRoute,
@@ -31,11 +33,24 @@ export class MovieComponent implements OnInit {
 
         this.moviedb.getReviewforMovie(params['id'])
         .subscribe(x => {
-          console.log(x);
-          // this.pelicula = pelicula;
-          // this.loadingPelicula = false;
+          this.reviewId = x.results[0].id;
+          console.log(this.reviewId)
+
+          this.moviedb.getReview(this.reviewId)
+        .subscribe(y => {
+
+          this.review=y;
+          console.log(this.review)
         })
+        })
+
+        
+
+
     })
+
+
+
 
    
 

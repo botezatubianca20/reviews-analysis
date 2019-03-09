@@ -52,6 +52,12 @@ export class MoviedbService {
     );
   }
 
+  getReview(id: string) {
+    return this.getQueryforPelicula(`/review/${id}`).pipe(
+      map((data: any) => data)
+    );
+  }
+
 
 
 
