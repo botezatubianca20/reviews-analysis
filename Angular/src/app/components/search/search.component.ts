@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MoviedbService } from "../../services/moviedb.service";
 
 @Component({
   selector: 'app-search',
@@ -7,9 +8,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchComponent implements OnInit {
 
-  constructor() { }
+  peliculas: any[] = [];
+  loading: boolean;
+
+  constructor(private moviedb: MoviedbService) { }
 
   ngOnInit() {
+  }
+
+  buscar(termino: string) {
+    console.log(termino);
+
+    this.loading = true;
+    this.moviedb.getBusquedaPeliculas(termino).subscribe((data: any) => {
+      console.log(data);
+
+      this.peliculas = data;
+      this.loading = false;
+    });
   }
 
 }

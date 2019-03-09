@@ -1,3 +1,14 @@
-<p>
-  search works!
-</p>
+<div class="row">
+  <div class="col">
+    <input
+      #termino
+      type="text"
+      (keyup)="buscar(termino.value)"
+      class="form-control"
+      placeholder="Buscar Pelicula"
+    />
+  </div>
+</div>
+
+
+<app-card *ngIf="!loading" [items]="peliculas"></app-card>
