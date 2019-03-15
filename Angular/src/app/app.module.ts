@@ -9,6 +9,8 @@ import { MovieComponent } from './components/movie/movie.component';
 import { CardComponent } from './components/card/card.component';
 import { MovieImagePipe } from './pipes/image.pipe';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { GenresComponent } from './components/genres/genres.component';
+import { NavbarGenresComponent } from './components/navbar-genres/navbar-genres.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     MovieComponent,
     CardComponent,
     MovieImagePipe,
-    NavbarComponent
+    NavbarComponent,
+    GenresComponent,
+    NavbarGenresComponent
   ],
   imports: [
     BrowserModule,

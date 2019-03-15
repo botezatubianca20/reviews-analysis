@@ -14,13 +14,11 @@ export class MoviedbService {
 
 
   getQuery(query: string) {
-    const url = `https://api.themoviedb.org/3${query}&api_key=${
-      this.apikey
-      }&language=en&callback=JSONP_CALLBACK`;
+    const url = `https://api.themoviedb.org/3${query}&api_key=${this.apikey}&language=en&callback=JSONP_CALLBACK`;
     return this.http.jsonp(url, "");
   }
 
-  getQueryforPelicula(query: string) {
+  getQueryForMovie(query: string) {
     const url = `https://api.themoviedb.org/3${query}?api_key=${
       this.apikey
       }&language=en&callback=JSONP_CALLBACK`;
@@ -41,21 +39,25 @@ export class MoviedbService {
   }
 
   getMovie(id: string) {
-    return this.getQueryforPelicula(`/movie/${id}`).pipe(
+    return this.getQueryForMovie(`/movie/${id}`).pipe(
       map((data: any) => data)
     );
   }
 
   getReviewforMovie(id: string) {
-    return this.getQueryforPelicula(`/movie/${id}/reviews`).pipe(
+    return this.getQueryForMovie(`/movie/${id}/reviews`).pipe(
       map((data: any) => data)
     );
   }
 
   getReview(id: string) {
-    return this.getQueryforPelicula(`/review/${id}`).pipe(
+    return this.getQueryForMovie(`/review/${id}`).pipe(
       map((data: any) => data)
     );
+  }
+
+  getGenres(){
+    return this.getQueryForMovie(`/genre/movie/list`).pipe(map((data:any) => data));
   }
 
 
