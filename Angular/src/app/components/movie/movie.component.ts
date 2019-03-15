@@ -8,10 +8,11 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./movie.component.css']
 })
 export class MovieComponent implements OnInit {
-  pelicula: any = {};
-  loadingPelicula: boolean;
+  movie: any = {};
+  loadingMovie: boolean;
   reviewId: any;
   review: any = {};
+  reviewNotAvailable: boolean = false;
 
 
   constructor(private router: ActivatedRoute,
@@ -19,29 +20,38 @@ export class MovieComponent implements OnInit {
 
   ngOnInit() {
 
-    this.loadingPelicula = true;
+    this.loadingMovie = true;
 
     this.router.params.subscribe(params => {
       console.log(params);
 
-      this.moviedb.getPelicula(params['id'])
-        .subscribe(pelicula => {
-          console.log(pelicula);
-          this.pelicula = pelicula;
-          this.loadingPelicula = false;
+      this.moviedb.getMovie(params['id'])
+        .subscribe(movie => {
+          console.log(movie);
+          this.movie = movie;
+          this.loadingMovie = false;
         })
 
         this.moviedb.getReviewforMovie(params['id'])
         .subscribe(x => {
-          this.reviewId = x.results[0].id;
-          console.log(this.reviewId)
+          console.log(params['id'])
+          console.log(x.results[0])
+          if(x.results[0] !== undefined){
+            this.reviewNotAvailable = false;
+            this.reviewId = x.results[0].id;
+            console.log(this.reviewId)
 
-          this.moviedb.getReview(this.reviewId)
-        .subscribe(y => {
-
-          this.review=y;
-          console.log(this.review)
-        })
+            this.moviedb.getReview(this.reviewId)
+            .subscribe(y => {
+    
+              this.review=y;
+              console.log(this.review)
+            })
+          }
+          else{
+            this.reviewNotAvailable = true;
+          }
+          
         })
 
         

@@ -34,13 +34,13 @@ export class MoviedbService {
     );
   }
 
-  getBusquedaPeliculas(termino: string) {
+  getSearchMovie(termino: string) {
     return this.getQuery(
       `/search/movie?query=${termino}&sort_by=popularity.desc`
     ).pipe(map((data: any) => data.results));
   }
 
-  getPelicula(id: string) {
+  getMovie(id: string) {
     return this.getQueryforPelicula(`/movie/${id}`).pipe(
       map((data: any) => data)
     );

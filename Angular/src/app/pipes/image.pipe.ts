@@ -1,24 +1,19 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 
-// Pipe encargado de pasar las imagenes de las Peliculas
 @Pipe({
-  name: 'peliculaImagen'
+  name: 'movieImg'
 })
-export class PeliculaImagenPipe implements PipeTransform {
+export class MovieImagePipe implements PipeTransform {
 
-  transform(pelicula: any): any {
-
-    // path url generica para obtener imagenes
+  transform(movie: any): any {
     let url = "http://image.tmdb.org/t/p/w400";
-
-    if (pelicula.poster_path) {
-      return url + pelicula.poster_path;
+    if (movie.poster_path) {
+      return url + movie.poster_path;
     } else {
-      if (pelicula.backdrop_path) {
-        return url + pelicula.backdrop_path;
+      if (movie.backdrop_path) {
+        return url + movie.backdrop_path;
       } else {
-        // Si la pelicula no tiene imagenes disponibles retorna una generica
         return "assets/noimage.png";
       }
     }

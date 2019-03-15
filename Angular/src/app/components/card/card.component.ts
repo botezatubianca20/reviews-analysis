@@ -14,11 +14,11 @@ export class CardComponent implements OnInit {
   ngOnInit() {
   }
 
-  verPelicula(item: any) {
+  verMovie(item: any) {
 
-    let peliculaId;
+    let movieId;
 
-    peliculaId = item.id;
+    movieId = item.id;
     /* let artistaId;
     if (item.type === "album") {
       artistaId = item.id;
@@ -26,7 +26,7 @@ export class CardComponent implements OnInit {
       artistaId = item.albums[0].id;
     } */
 
-    this.router.navigate(["/movie", peliculaId]);
+    this.router.navigate(["/movie", movieId]);
   }
 
 }

@@ -7,7 +7,7 @@ import { HomeComponent } from './components/home/home.component';
 import { SearchComponent } from './components/search/search.component';
 import { MovieComponent } from './components/movie/movie.component';
 import { CardComponent } from './components/card/card.component';
-import { PeliculaImagenPipe } from './pipes/image.pipe';
+import { MovieImagePipe } from './pipes/image.pipe';
 import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
@@ -17,7 +17,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     SearchComponent,
     MovieComponent,
     CardComponent,
-    PeliculaImagenPipe,
+    MovieImagePipe,
     NavbarComponent
   ],
   imports: [

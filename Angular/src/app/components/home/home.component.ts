@@ -8,7 +8,7 @@ import { MoviedbService } from '../../services/moviedb.service';
 })
 export class HomeComponent implements OnInit {
 
-  nuevasPeliculas: any[] = [];
+  newMovies: any[] = [];
   loading: boolean;
 
   constructor(private moviedb: MoviedbService) { }
@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
       .subscribe((data: any) => {
 
         console.log(data);
-        this.nuevasPeliculas = data;
+        this.newMovies = data;
         this.loading = false;
       });
 

@@ -1,14 +1,14 @@
 <div class="row">
   <div class="col">
     <input
-      #termino
+      #item
       type="text"
-      (keyup)="buscar(termino.value)"
+      (keyup)="search(item.value)"
       class="form-control"
-      placeholder="Buscar Pelicula"
+      placeholder="Search movie"
     />
   </div>
 </div>
 
 
-<app-card *ngIf="!loading" [items]="peliculas"></app-card>
+<app-card *ngIf="!loading" [items]="movies"></app-card>

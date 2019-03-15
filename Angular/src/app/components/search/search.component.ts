@@ -8,7 +8,7 @@ import { MoviedbService } from "../../services/moviedb.service";
 })
 export class SearchComponent implements OnInit {
 
-  peliculas: any[] = [];
+  movies: any[] = [];
   loading: boolean;
 
   constructor(private moviedb: MoviedbService) { }
@@ -16,14 +16,14 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
   }
 
-  buscar(termino: string) {
-    console.log(termino);
+  search(item: string) {
+    console.log(item);
 
     this.loading = true;
-    this.moviedb.getBusquedaPeliculas(termino).subscribe((data: any) => {
+    this.moviedb.getSearchMovie(item).subscribe((data: any) => {
       console.log(data);
 
-      this.peliculas = data;
+      this.movies = data;
       this.loading = false;
     });
   }
