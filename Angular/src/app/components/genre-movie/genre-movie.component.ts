@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-genre-movie',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GenreMovieComponent implements OnInit {
 
-  constructor() { }
+  @Input() items: any[] = [];
+  constructor(private router: Router) { }
 
   ngOnInit() {
+  }
+
+  verMovie(item: any) {
+
+    let movieId;
+
+    movieId = item.id;
+
+    this.router.navigate(["/movie", movieId]);
   }
 
 }

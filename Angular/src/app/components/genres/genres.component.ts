@@ -18,8 +18,8 @@ export class GenresComponent implements OnInit {
       this.moviesByGenreArray = data;
       console.log(this.moviesByGenreArray);
     })
-
-
   }
+
+
 
 }

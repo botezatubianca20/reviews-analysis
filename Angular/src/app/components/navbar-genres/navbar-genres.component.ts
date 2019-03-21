@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MoviedbService } from '../../services/moviedb.service';
-import { routerNgProbeToken } from '@angular/router/src/router_module';
 
 @Component({
   selector: 'app-navbar-genres',
@@ -18,6 +17,7 @@ export class NavbarGenresComponent implements OnInit {
       this.genresArray = data.genres;
       console.log(this.genresArray)
     })
+
   }
 
 
