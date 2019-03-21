@@ -32,9 +32,9 @@ export class MoviedbService {
     );
   }
 
-  getSearchMovie(termino: string) {
+  getSearchMovie(query: string) {
     return this.getQuery(
-      `/search/movie?query=${termino}&sort_by=popularity.desc`
+      `/search/movie?query=${query}&sort_by=popularity.desc`
     ).pipe(map((data: any) => data.results));
   }
 
@@ -56,10 +56,16 @@ export class MoviedbService {
     );
   }
 
-  getGenres(){
-    return this.getQueryForMovie(`/genre/movie/list`).pipe(map((data:any) => data));
+  getGenres() {
+    return this.getQueryForMovie(`/genre/movie/list`).pipe(map((data: any) => data));
   }
 
+
+  getDiscoverMoviesByGenre(genreId: number) {
+    return this.getQuery(`/discover/movie?sort_by=popularity.desc&with_genres=${genreId}`).pipe(
+      map((data: any) => data.results)
+    );
+  }
 
 
 

@@ -11,6 +11,7 @@ import { MovieImagePipe } from './pipes/image.pipe';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { GenresComponent } from './components/genres/genres.component';
 import { NavbarGenresComponent } from './components/navbar-genres/navbar-genres.component';
+import { GenreMovieComponent } from './components/genre-movie/genre-movie.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { NavbarGenresComponent } from './components/navbar-genres/navbar-genres.
     MovieImagePipe,
     NavbarComponent,
     GenresComponent,
-    NavbarGenresComponent
+    NavbarGenresComponent,
+    GenreMovieComponent
   ],
   imports: [
     BrowserModule,
