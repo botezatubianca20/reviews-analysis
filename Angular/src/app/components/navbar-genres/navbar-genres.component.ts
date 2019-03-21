@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MoviedbService } from '../../services/moviedb.service';
 
 @Component({
@@ -9,6 +9,7 @@ import { MoviedbService } from '../../services/moviedb.service';
 export class NavbarGenresComponent implements OnInit {
   genresArray: any = [];
 
+  @Output() chooseIdGenre: EventEmitter<number> = new EventEmitter();
   constructor(private moviedb: MoviedbService) { }
 
   ngOnInit() {
@@ -18,6 +19,10 @@ export class NavbarGenresComponent implements OnInit {
       console.log(this.genresArray)
     })
 
+  }
+
+  onClick() {
+    this.chooseIdGenre.emit(16);
   }
 
 

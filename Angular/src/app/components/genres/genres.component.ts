@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { MoviedbService } from '../../services/moviedb.service';
 
 @Component({
@@ -8,15 +8,17 @@ import { MoviedbService } from '../../services/moviedb.service';
 })
 export class GenresComponent implements OnInit {
   moviesByGenreArray: any[] = [];
-  chooseIdGenre: number = 16;
+  // chooseIdGenre: number = 16;
 
+  @Input() chooseIdGenre;
   constructor(private moviedb: MoviedbService) { }
 
   ngOnInit() {
     this.moviedb.getDiscoverMoviesByGenre(this.chooseIdGenre).subscribe((data: any) => {
-      console.log(data);
+      console.log(this.chooseIdGenre)
+      // console.log(data);
       this.moviesByGenreArray = data;
-      console.log(this.moviesByGenreArray);
+      // console.log(this.moviesByGenreArray);
     })
   }
 
