@@ -2,39 +2,44 @@
 
   <div class="row">
 
-      <div class="col-md-5">
-          <img [src]="movie | movieImg" [alt]="movie.original_title" class="img-thumbnail img-fluid">
+    <div class="col-md-5">
+      <img [src]="movie | movieImg" [alt]="movie.original_title" class="img-thumbnail img-fluid">
+      <br><br><br>
+      <h4>Release date:</h4>
+      <hr>
+      <p>{{ movie.release_date }}</p>
+
+      <br><br>
+      <h4>Genres:</h4>
+      <hr>
+      <div *ngFor="let genre of movie.genres">
+        <p>{{genre.name}}</p>
+
       </div>
 
+    </div>
 
-      <div class="col-md-7">
-          <h3>Overview</h3>
-          <hr>
-          <p class="text-justify">
-              {{ movie.overview }}
-          </p>
 
-          <!-- <p>
-              Popularidad: <span class="badge badge-primary">{{ movie.popularity | number:".0-0" }}/10</span>
-              <br>
-              Voto promedio: <span class="badge badge-primary">{{ movie.vote_average }}</span>
-          </p> -->
+    <div class="col-md-7">
+      <h3>Overview</h3>
+      <hr>
+      <p class="text-justify">
+        {{ movie.overview }}
+      </p>
+      <br><br>
 
-          <div *ngIf="!reviewNotAvailable">
-          <h3>Reviews:</h3>
-          <p class="text-justify">
-            {{ review.author }}
+      <div *ngIf="!reviewNotAvailable">
+        <h3>Reviews:</h3>
+        <hr>
+        <p class="text-justify">
+          <b>{{ review.author }}:</b>
         </p>
         <p class="text-justify">
-            {{ review.content }}
+          {{ review.content }}
         </p>
-    </div>
-          
-
-          <!-- <button [routerLink]="['/'+regresarA, busqueda ]" type="button" class="btn btn-outline-danger">
-              Regresar
-          </button> -->
-
       </div>
+
+
+    </div>
   </div>
 </div>

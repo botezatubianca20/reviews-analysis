@@ -7,17 +7,11 @@ import { MoviedbService } from '../../services/moviedb.service';
   styleUrls: ['./genres.component.css']
 })
 export class GenresComponent implements OnInit {
-  genresArray: any = [];
 
   constructor(private moviedb: MoviedbService) { }
 
   ngOnInit() {
 
-    this.moviedb.getGenres().subscribe((data: any) => {
-      console.log(data);
-      this.genresArray = data.genres;
-      console.log(this.genresArray)
-    })
   }
 
 }

@@ -19,12 +19,6 @@ export class CardComponent implements OnInit {
     let movieId;
 
     movieId = item.id;
-    /* let artistaId;
-    if (item.type === "album") {
-      artistaId = item.id;
-    } else {
-      artistaId = item.albums[0].id;
-    } */
 
     this.router.navigate(["/movie", movieId]);
   }
