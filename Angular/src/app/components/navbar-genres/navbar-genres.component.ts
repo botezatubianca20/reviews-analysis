@@ -8,6 +8,7 @@ import { MoviedbService } from '../../services/moviedb.service';
 })
 export class NavbarGenresComponent implements OnInit {
   genresArray: any = [];
+  idsArray: any = [];
 
   @Output() chooseIdGenre = new EventEmitter<number>();
   constructor(private moviedb: MoviedbService) { }
@@ -17,6 +18,12 @@ export class NavbarGenresComponent implements OnInit {
       console.log(data);
       this.genresArray = data.genres;
       console.log(this.genresArray)
+
+      for (var i = 0; i < this.genresArray.length; i++) {
+        this.idsArray.push(this.genresArray[i].id);
+      }
+
+      console.log(this.idsArray);
     })
 
   }
