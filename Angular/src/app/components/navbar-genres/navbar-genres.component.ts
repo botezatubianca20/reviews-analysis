@@ -9,7 +9,7 @@ import { MoviedbService } from '../../services/moviedb.service';
 export class NavbarGenresComponent implements OnInit {
   genresArray: any = [];
 
-  @Output() chooseIdGenre: EventEmitter<number> = new EventEmitter();
+  @Output() chooseIdGenre = new EventEmitter<number>();
   constructor(private moviedb: MoviedbService) { }
 
   ngOnInit() {
@@ -22,7 +22,7 @@ export class NavbarGenresComponent implements OnInit {
   }
 
   onClick() {
-    this.chooseIdGenre.emit(16);
+    this.chooseIdGenre.emit(35);
   }
 
 

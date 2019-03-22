@@ -10,12 +10,17 @@ export class GenresComponent implements OnInit {
   moviesByGenreArray: any[] = [];
   // chooseIdGenre: number = 16;
 
-  @Input() chooseIdGenre;
+  choose: number;
   constructor(private moviedb: MoviedbService) { }
 
   ngOnInit() {
-    this.moviedb.getDiscoverMoviesByGenre(this.chooseIdGenre).subscribe((data: any) => {
-      console.log(this.chooseIdGenre)
+
+  }
+
+  childSays($event) {
+    this.choose = $event;
+    console.log(this.choose);
+    this.moviedb.getDiscoverMoviesByGenre(this.choose).subscribe((data: any) => {
       // console.log(data);
       this.moviesByGenreArray = data;
       // console.log(this.moviesByGenreArray);
