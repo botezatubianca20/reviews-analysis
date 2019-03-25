@@ -28,8 +28,9 @@ export class NavbarGenresComponent implements OnInit {
 
   }
 
-  onClick() {
-    this.chooseIdGenre.emit(35);
+  onClick(genre) {
+    this.chooseIdGenre.emit(genre.id);
+    console.log(genre.id)
   }
 
 
