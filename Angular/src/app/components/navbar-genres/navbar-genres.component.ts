@@ -22,10 +22,8 @@ export class NavbarGenresComponent implements OnInit {
       for (var i = 0; i < this.genresArray.length; i++) {
         this.idsArray.push(this.genresArray[i].id);
       }
-
       console.log(this.idsArray);
     })
-
   }
 
   onClick(genre) {

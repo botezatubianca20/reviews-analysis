@@ -12,6 +12,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { GenresComponent } from './components/genres/genres.component';
 import { NavbarGenresComponent } from './components/navbar-genres/navbar-genres.component';
 import { GenreMovieComponent } from './components/genre-movie/genre-movie.component';
+import { ReviewsComponent } from './components/reviews/reviews.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { GenreMovieComponent } from './components/genre-movie/genre-movie.compon
     NavbarComponent,
     GenresComponent,
     NavbarGenresComponent,
-    GenreMovieComponent
+    GenreMovieComponent,
+    ReviewsComponent
   ],
   imports: [
     BrowserModule,

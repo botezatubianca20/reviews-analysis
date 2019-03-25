@@ -14,7 +14,6 @@ export class GenresComponent implements OnInit {
   constructor(private moviedb: MoviedbService) { }
 
   ngOnInit() {
-
   }
 
   childSays($event) {
