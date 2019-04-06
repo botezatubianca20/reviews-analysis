@@ -1,16 +1,27 @@
-exports.kn = require('knex')({
+// exports.kn = require('knex')({
+//     client: 'mysql',
+//     connection: {
+//         host: '127.0.0.1',
+//         port: 3306,
+//         database: 'movies',
+//         user: 'test',
+//         password: ''
+//     }
+// });
+
+const Knex = require('knex')
+
+var knex = new Knex({
     client: 'mysql',
     connection: {
         host: '127.0.0.1',
         port: 3306,
         database: 'movies',
-        user: 'test',
+        user: 'root',
         password: ''
     }
-});
 
-// connection.connect(function(err) {
-//     if (err) throw err;
-// });
+})
 
-// module.exports = connection;
+module.exports = knex
+

@@ -13,3 +13,6 @@ router.get('/getAllReviews', (req, res, next) => {
         res.send(err);
       })
   });
+
+
+  module.exports = router;

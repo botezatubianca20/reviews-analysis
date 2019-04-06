@@ -20,3 +20,5 @@ router.get('/getUsers', function (req, res, next) {
       })
     })
 });
+
+module.exports = router;
