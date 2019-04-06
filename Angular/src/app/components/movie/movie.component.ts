@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MoviedbService } from "../../services/moviedb.service";
 import { ActivatedRoute } from '@angular/router';
+import { ReviewsService } from 'src/app/services/reviews.service';
 
 @Component({
   selector: 'app-movie',
@@ -16,7 +17,7 @@ export class MovieComponent implements OnInit {
 
 
   constructor(private router: ActivatedRoute,
-    private moviedb: MoviedbService) { }
+    private moviedb: MoviedbService, private reviewsService: ReviewsService) { }
 
   ngOnInit() {
 
@@ -46,6 +47,8 @@ export class MovieComponent implements OnInit {
     
               this.review=y;
               console.log(this.review)
+
+              this.reviewsService.addReview(this.review).toPromise().then(res => {})
             })
           }
           else{
