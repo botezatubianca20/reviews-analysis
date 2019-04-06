@@ -21,4 +21,31 @@ router.get('/getUsers', function (req, res, next) {
     })
 });
 
+
+// add user
+router.post('/addUser', (req, res) => {
+  // console.log(req.body)
+  knex
+    .from('users')
+    .insert({
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+    })
+    .then(() => {
+      res.json({
+        success: true,
+        message: "Data successfully inserted."
+      })
+    })
+    .catch(() => {
+      res.json({
+        success: false,
+        message: "Error. Please try again later."
+      })
+    })
+})
+
 module.exports = router;
