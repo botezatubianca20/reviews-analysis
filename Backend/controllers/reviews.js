@@ -36,7 +36,19 @@ router.post('/addReview', (req, res) => {
         message: "Error. Please try again later."
       })
     })
-})
+});
+
+
+//get the last review from reviews table
+router.get('/getLastReview', (req, res, next) => {
+  knex.raw("select * from reviews order by id_review desc limit 1")
+    .then((reviews) => {
+      res.send(reviews)
+    })
+    .catch((err) => {
+      res.send(err);
+    })
+});
 
 
   module.exports = router;
