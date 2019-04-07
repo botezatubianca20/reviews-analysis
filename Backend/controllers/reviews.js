@@ -19,11 +19,10 @@ router.post('/addReview', (req, res) => {
   knex
     .from('reviews')
     .insert({
-      review: req.body.review,
+      content: req.body.content,
       author: req.body.author,
-      source: req.body.source,
-      movie_title: req.body.movie_title,
-      sentiment: req.body.sentiment,
+      url: req.body.url,
+      media_title: req.body.media_title,
     })
     .then(() => {
       res.json({

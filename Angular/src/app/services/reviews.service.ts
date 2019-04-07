@@ -13,11 +13,11 @@ export class ReviewsService {
 
   
   getReviews() {
-    return this.http.get(`/reviews/getReviews`);
+    return this.http.get(`http://localhost:3001/reviews/getReviews`);
   }
 
   addReview(review: any) {
-    return this.http.post(`/reviews/addReview`, review);
+    return this.http.post(`http://localhost:3001/reviews/addReview`, review);
   }
 
 

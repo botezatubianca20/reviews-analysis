@@ -48,7 +48,9 @@ export class MovieComponent implements OnInit {
               this.review=y;
               console.log(this.review)
 
-              this.reviewsService.addReview(this.review).toPromise().then(res => {})
+              this.reviewsService.addReview(this.review).toPromise().then(res => {
+                console.log(res);
+              })
             })
           }
           else{
