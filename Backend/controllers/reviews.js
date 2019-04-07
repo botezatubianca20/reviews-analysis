@@ -40,15 +40,15 @@ router.post('/addReview', (req, res) => {
 
 
 //get the last review from reviews table
-router.get('/getLastReview', (req, res, next) => {
-  knex.raw("select * from reviews order by id_review desc limit 1")
-    .then((reviews) => {
-      res.send(reviews)
-    })
-    .catch((err) => {
-      res.send(err);
-    })
-});
+// router.get('/getLastReview', (req, res, next) => {
+//   knex.raw("select content from reviews order by id_review desc limit 1")
+//     .then((reviews) => {
+//       res.send(reviews)
+//     })
+//     .catch((err) => {
+//       res.send(err);
+//     })
+// });
 
 
   module.exports = router;
