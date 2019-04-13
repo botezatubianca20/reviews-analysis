@@ -1,5 +1,6 @@
 import sentiment_mod as s
 import mysql.connector
+import sys
 
 mydb = mysql.connector.connect(
     host = '127.0.0.1',
@@ -30,4 +31,5 @@ elif result[0] == 'pos':
 mycursor.execute(sql)
 mydb.commit()
 
-
+# print("Output from Python") 
+# print(sys.argv) 

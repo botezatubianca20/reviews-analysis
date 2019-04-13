@@ -38,7 +38,7 @@ export class MovieComponent implements OnInit {
           console.log(params['id'])
           console.log(x.results[0])
           if(x.results[0] !== undefined){
-            this.reviewNotAvailable = false;
+            this.reviewNotAvailable = false; 
             this.reviewId = x.results[0].id;
             console.log(this.reviewId)
 
@@ -51,6 +51,11 @@ export class MovieComponent implements OnInit {
               this.reviewsService.addReview(this.review).toPromise().then(res => {
                 console.log(res);
               })
+
+              this.reviewsService.test().toPromise().then(res => {
+                console.log(res);
+              })
+
             })
           }
           else{

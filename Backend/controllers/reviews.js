@@ -29,6 +29,7 @@ router.post('/addReview', (req, res) => {
         success: true,
         message: "Data successfully inserted."
       })
+
     })
     .catch(() => {
       res.json({
@@ -39,16 +40,25 @@ router.post('/addReview', (req, res) => {
 });
 
 
-//get the last review from reviews table
-// router.get('/getLastReview', (req, res, next) => {
-//   knex.raw("select content from reviews order by id_review desc limit 1")
-//     .then((reviews) => {
-//       res.send(reviews)
-//     })
-//     .catch((err) => {
-//       res.send(err);
-//     })
-// });
+//
+router.get('/test', (req, res, next) => {
+  var spawn = require("child_process").spawn; 
+  var process = spawn('python', ["sentiment_test.py"] );
+
+  process.stdout.on('data', (data) => {
+    // console.log(`${data}`);
+  });
+  
+  process.stderr.on('data', (data) => {
+    // console.log(`stderr: ${data}`);
+  });
+  
+  process.on('close', (code) => {
+    // console.log(`child process exited with code ${code}`);
+  });
+});
+
+
 
 
   module.exports = router;
