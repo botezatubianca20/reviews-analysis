@@ -71,7 +71,7 @@ router.get('/runRecommendationSystem', (req, res, next) => {
   process.stdout.on('data', (data) => {
     // console.log(`${data}`);
 
-      res.send(data);
+      // res.send(data);
       res.json({
         success: true,
         message: data
@@ -103,15 +103,46 @@ router.get('/getSentimentOfLastReview', (req, res, next) => {
         .limit(1)
         .then((sentiment) => {
             res.send(sentiment);
-            // res.json({
-            //   success: true,
-            //   message: "sentiment"
-            // })
         })
         .catch((error) => {
             res.send(error);
         })
-    
+});
+
+router.post('/postMovieForRecommendation', (req, res) => {
+  knex
+    .from('movie')
+    .insert({
+      movie: req.body.movie
+    })
+    .then(() => {
+      res.json({
+        success: true,
+        message: "Data successfully inserted."
+      })
+
+    })
+    .catch(() => {
+      res.json({
+        success: false,
+        message: "Error. Please try again later."
+      })
+    })
+});
+
+//get the  recommended_movies from the last id_movie
+router.get('/getRecommendedMovies', (req, res, next) => {
+  knex
+        .from('movie')
+        .select('recommended_movies')
+        .orderBy('id_movie', 'desc')
+        .limit(1)
+        .then((mov) => {
+            res.send(mov);
+        })
+        .catch((error) => {
+            res.send(error);
+        })
 });
 
 

@@ -1,15 +1,26 @@
 <p>
-  recommendation works!
+  The system will recommend you similar movies to the movie you search for! 
 </p>
 
-<!-- <div class="row">
+<div class="row">
     <div class="col">
       <input
         #item
         type="text"
-        (keyup)="search(item.value)"
+        (keydown)="onKeydown($event, item.value)"
         class="form-control"
-        placeholder="Search movie"
+        placeholder="Type the movie title"
       />
     </div>
-  </div> -->
+  </div>
+<br><br><br>
+
+  <div *ngIf="!loading">
+    <h4>Recommended movies:</h4>
+    <hr>
+    <div *ngFor="let item of recommendedMoviesArray">
+      {{item}}
+        
+    </div>
+
+  </div>

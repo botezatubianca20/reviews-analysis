@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ReviewsService } from 'src/app/services/reviews.service';
 
 @Component({
   selector: 'app-recommendation',
@@ -7,9 +8,51 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RecommendationComponent implements OnInit {
 
-  constructor() { }
+  loading: boolean = true;
+  movie: any ={};
+  recommended: string;
+  recommendedMoviesArray: any = [];
+
+  
+  constructor(private reviewsService: ReviewsService) { }
 
   ngOnInit() {
   }
+
+
+
+  onKeydown(event, item: any) {
+    if (event.key === "Enter") {
+      // console.log(event);
+      // console.log(item)
+      this.movie = {movie: item};
+
+      this.reviewsService.postMovieForRecommendation(this.movie).toPromise().then(res => {
+        console.log(this.movie)
+        console.log(res)
+
+        this.reviewsService.runRecommendationSystem().subscribe(resp => {
+          console.log("gata")
+          console.log(resp)
+          
+          this.reviewsService.getRecommendedMovies().subscribe(res2 => {
+            // console.log(res2)
+            this.recommended = res2[0].recommended_movies
+            // console.log(this.recommended)
+            this.recommendedMoviesArray = this.recommended.split(',')
+            console.log(this.recommendedMoviesArray)
+
+            this.loading = false;
+          })
+          
+        }) 
+
+        
+    })
+
+    }
+  }
+
+
 
 }

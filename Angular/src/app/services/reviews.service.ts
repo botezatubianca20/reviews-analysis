@@ -32,6 +32,14 @@ export class ReviewsService {
     return this.http.get(`http://localhost:3001/reviews/getSentimentOfLastReview`);
   }
 
+  postMovieForRecommendation(movie: any){
+    return this.http.post(`http://localhost:3001/reviews/postMovieForRecommendation`, movie);
+  }
+
+  getRecommendedMovies(){
+    return this.http.get(`http://localhost:3001/reviews/getRecommendedMovies`);
+  }
+
 
  
 }

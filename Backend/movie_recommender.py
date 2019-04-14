@@ -2,6 +2,29 @@ import pandas as pd
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+import mysql.connector
+
+
+
+mydb = mysql.connector.connect(
+    host = '127.0.0.1',
+    port = 3306,
+    database = 'movies',
+    user = 'root',
+    password = ''
+)
+
+mycursor = mydb.cursor()
+
+mycursor.execute("SELECT movie FROM movie ORDER BY id_movie desc limit 1")
+myresult = mycursor.fetchone()
+# print(myresult[0])
+
+mycursor.execute("SELECT id_movie FROM movie ORDER BY id_movie desc limit 1")
+id = mycursor.fetchone()
+# print(id[0])
+
+
 ######   https://www.youtube.com/watch?v=XoTwndOgXBM
 def get_title_from_index(index):
 	return df[df.index == index]["title"].values[0]
@@ -37,7 +60,7 @@ count_matrix = cv.fit_transform(df["combined_features"])
 
 ##Step 5: Compute the Cosine Similarity based on the count_matrix
 cosine_sim = cosine_similarity(count_matrix)
-movie_user_likes = "Love"
+movie_user_likes = myresult[0]
 
 ## Step 6: Get index of this movie from its title
 movie_index = get_index_from_title(movie_user_likes)
@@ -48,9 +71,28 @@ similar_movies =  list(enumerate(cosine_sim[movie_index]))
 sorted_similar_movies = sorted(similar_movies,key=lambda x:x[1],reverse=True)
 
 ## Step 8: Print titles of first 50 movies
+movies=''
 i=0
 for element in sorted_similar_movies:
-		print(get_title_from_index(element[0]))
+		# print(get_title_from_index(element[0]))
+
+		movies = movies + ', ' + get_title_from_index(element[0])
+    	
 		i=i+1
 		if i>50:
 			break
+
+
+movies = movies[2:]
+print(movies)
+
+sql = "UPDATE movie SET recommended_movies = %s WHERE id_movie = %s"
+
+val = (str(movies), str(id[0]))
+
+mycursor.execute(sql, val)
+
+# mycursor.execute(sql)
+mydb.commit()
+
+
