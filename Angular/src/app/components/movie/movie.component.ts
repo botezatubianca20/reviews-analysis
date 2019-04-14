@@ -14,6 +14,8 @@ export class MovieComponent implements OnInit {
   reviewId: any;
   review: any = {};
   reviewNotAvailable: boolean = false;
+  finalSentiment: any;
+  show: boolean = false;
 
 
   constructor(private router: ActivatedRoute,
@@ -52,9 +54,24 @@ export class MovieComponent implements OnInit {
                 console.log(res);
               })
 
-              this.reviewsService.test().toPromise().then(res => {
-                console.log(res);
-              })
+              //sa ruleze partea de python
+              //sa ia la final sentimentul din tabela si sa afiseze pe ecran
+              this.reviewsService.runSentimentAnalysis().subscribe(res => {
+                console.log("gata")
+
+                this.reviewsService.getSentimentOfLastReview().subscribe(resp => {
+                  // console.log(resp)
+                  console.log(resp[0].sentiment)
+                  this.finalSentiment = resp[0].sentiment;
+                  this.show = true;
+
+
+                })
+                
+              }) 
+
+              
+             
 
             })
           }

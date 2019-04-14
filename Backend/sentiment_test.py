@@ -18,7 +18,7 @@ myresult = mycursor.fetchone()
 
 mycursor.execute("SELECT id_review FROM reviews ORDER BY id_review desc limit 1")
 id = mycursor.fetchone()
-print(id[0])
+# print(id[0])
 
 result = s.sentiment(str(myresult))
 print(result[0])

@@ -39,6 +39,22 @@
         </p>
       </div>
 
+      <div *ngIf="show">
+        <h3>Review Sentiment Analysis</h3>
+        <hr>
+        <div *ngIf="finalSentiment === 1">
+            <p class="text-justify">
+                <b>The review is positive!</b>
+              </p>
+        </div>
+        <div *ngIf="finalSentiment === -1">
+            <p class="text-justify">
+                <b>The review is negative!</b>
+              </p>
+        </div>
+
+      </div>
+
 
     </div>
   </div>

@@ -41,12 +41,17 @@ router.post('/addReview', (req, res) => {
 
 
 //
-router.get('/test', (req, res, next) => {
+router.get('/runSentimentAnalysis', (req, res, next) => {
   var spawn = require("child_process").spawn; 
   var process = spawn('python', ["sentiment_test.py"] );
 
   process.stdout.on('data', (data) => {
     // console.log(`${data}`);
+    // res.send(data)
+    res.json({
+      success: true,
+      message: data
+    })
   });
   
   process.stderr.on('data', (data) => {
@@ -56,6 +61,53 @@ router.get('/test', (req, res, next) => {
   process.on('close', (code) => {
     // console.log(`child process exited with code ${code}`);
   });
+});
+
+
+router.get('/runRecommendationSystem', (req, res, next) => {
+  var spawn = require("child_process").spawn; 
+  var process = spawn('python', ["movie_recommender.py"] );
+
+  process.stdout.on('data', (data) => {
+    // console.log(`${data}`);
+
+      res.send(data);
+      // res.json({
+      //   success: true,
+      //   message: "sentiment"
+      // })
+
+  });
+  
+  process.stderr.on('data', (data) => {
+    // console.log(`stderr: ${data}`);
+  });
+  
+  process.on('close', (code) => {
+    // console.log(`child process exited with code ${code}`);
+  });
+});
+
+
+//get sentiment of the last review in the table
+router.get('/getSentimentOfLastReview', (req, res, next) => {
+  // knex('SELECT sentiment FROM reviews ORDER BY id_review desc limit 1')
+  knex
+        .from('reviews')
+        .select('sentiment')
+        .orderBy('id_review', 'desc')
+        .limit(1)
+        .then((sentiment) => {
+            res.send(sentiment);
+            // res.json({
+            //   success: true,
+            //   message: "sentiment"
+            // })
+        })
+        .catch((error) => {
+            res.send(error);
+        })
+    
 });
 
 

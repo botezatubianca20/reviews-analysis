@@ -20,8 +20,16 @@ export class ReviewsService {
     return this.http.post(`http://localhost:3001/reviews/addReview`, review);
   }
 
-  test() {
-    return this.http.get(`http://localhost:3001/reviews/test`);
+  runSentimentAnalysis() {
+    return this.http.get(`http://localhost:3001/reviews/runSentimentAnalysis`);
+  }
+
+  runRecommendationSystem() {
+    return this.http.get(`http://localhost:3001/reviews/runRecommendationSystem`);
+  }
+
+  getSentimentOfLastReview(){
+    return this.http.get(`http://localhost:3001/reviews/getSentimentOfLastReview`);
   }
 
 
