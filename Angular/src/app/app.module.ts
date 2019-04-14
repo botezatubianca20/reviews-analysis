@@ -13,6 +13,7 @@ import { GenresComponent } from './components/genres/genres.component';
 import { NavbarGenresComponent } from './components/navbar-genres/navbar-genres.component';
 import { GenreMovieComponent } from './components/genre-movie/genre-movie.component';
 import { ReviewsComponent } from './components/reviews/reviews.component';
+import { RecommendationComponent } from './components/recommendation/recommendation.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ReviewsComponent } from './components/reviews/reviews.component';
     GenresComponent,
     NavbarGenresComponent,
     GenreMovieComponent,
-    ReviewsComponent
+    ReviewsComponent,
+    RecommendationComponent
   ],
   imports: [
     BrowserModule,

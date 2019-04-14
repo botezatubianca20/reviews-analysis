@@ -72,10 +72,10 @@ router.get('/runRecommendationSystem', (req, res, next) => {
     // console.log(`${data}`);
 
       res.send(data);
-      // res.json({
-      //   success: true,
-      //   message: "sentiment"
-      // })
+      res.json({
+        success: true,
+        message: data
+      })
 
   });
   
@@ -85,6 +85,10 @@ router.get('/runRecommendationSystem', (req, res, next) => {
   
   process.on('close', (code) => {
     // console.log(`child process exited with code ${code}`);
+    res.json({
+      success: false,
+      message: "Error. Please try again later."
+    })
   });
 });
 
