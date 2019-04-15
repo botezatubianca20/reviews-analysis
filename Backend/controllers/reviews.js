@@ -60,6 +60,10 @@ router.get('/runSentimentAnalysis', (req, res, next) => {
   
   process.on('close', (code) => {
     // console.log(`child process exited with code ${code}`);
+    res.json({
+      success: false,
+      message: "Error. Please try again later."
+    })
   });
 });
 
@@ -146,6 +150,38 @@ router.get('/getRecommendedMovies', (req, res, next) => {
 });
 
 
+
+//vreau sa imi ia random 3 review-uri pozitive si 3 negative in fiecare zi la ora 12:00
+//momentan fac cu primele 3 din baza de date
+router.get('/getPositiveReviews', (req, res, next) => {
+  knex
+        .from('reviews')
+        .select('content')
+        .where('sentiment', '=', '1')
+        .orderBy('id_review', 'desc')
+        .limit(3)
+        .then((sentiment) => {
+            res.send(sentiment);
+        })
+        .catch((error) => {
+            res.send(error);
+        })
+});
+
+router.get('/getNegativeReviews', (req, res, next) => {
+  knex
+        .from('reviews')
+        .select('content')
+        .where('sentiment', '=', '-1')
+        .orderBy('id_review', 'desc')
+        .limit(3)
+        .then((sentiment) => {
+            res.send(sentiment);
+        })
+        .catch((error) => {
+            res.send(error);
+        })
+});
 
 
   module.exports = router;

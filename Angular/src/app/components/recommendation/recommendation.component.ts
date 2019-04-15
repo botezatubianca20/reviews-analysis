@@ -12,6 +12,7 @@ export class RecommendationComponent implements OnInit {
   movie: any ={};
   recommended: string;
   recommendedMoviesArray: any = [];
+  sorry: boolean = false;
 
   
   constructor(private reviewsService: ReviewsService) { }
@@ -19,6 +20,9 @@ export class RecommendationComponent implements OnInit {
   ngOnInit() {
   }
 
+  ngOnChange(){
+    this.loading  = true;
+  }
 
 
   onKeydown(event, item: any) {
@@ -41,8 +45,15 @@ export class RecommendationComponent implements OnInit {
             // console.log(this.recommended)
             this.recommendedMoviesArray = this.recommended.split(',')
             console.log(this.recommendedMoviesArray)
+            if(this.recommendedMoviesArray.length == 1){
+              this.loading = true;
+              this.sorry = true;
+            }
+            else{
+              this.loading = false;
+            }
 
-            this.loading = false;
+            
           })
           
         }) 

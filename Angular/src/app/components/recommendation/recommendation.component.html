@@ -20,7 +20,10 @@
     <hr>
     <div *ngFor="let item of recommendedMoviesArray">
       {{item}}
-        
     </div>
+  </div>
 
+  <div *ngIf="sorry">
+    <p>Sorry, the system did not find any similar movie :(</p>
+    
   </div>

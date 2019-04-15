@@ -40,6 +40,14 @@ export class ReviewsService {
     return this.http.get(`http://localhost:3001/reviews/getRecommendedMovies`);
   }
 
+  getPositiveReviews(){
+    return this.http.get(`http://localhost:3001/reviews/getPositiveReviews`);
+  }
+
+  getNegativeReviews(){
+    return this.http.get(`http://localhost:3001/reviews/getNegativeReviews`);
+  }
+
 
  
 }
