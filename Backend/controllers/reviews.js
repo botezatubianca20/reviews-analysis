@@ -3,7 +3,7 @@ var router = express.Router()
 const knex = require('../db.js')
 
 
-router.get('/getReviews', (req, res, next) => {
+router.get('/getReviews', (req, res) => {
     knex('*')
       .from('reviews')
       .then((reviews) => {
@@ -41,7 +41,7 @@ router.post('/addReview', (req, res) => {
 
 
 //
-router.get('/runSentimentAnalysis', (req, res, next) => {
+router.get('/runSentimentAnalysis', (req, res) => {
   var spawn = require("child_process").spawn; 
   var process = spawn('python', ["sentiment_test.py"] );
 
@@ -68,7 +68,7 @@ router.get('/runSentimentAnalysis', (req, res, next) => {
 });
 
 
-router.get('/runRecommendationSystem', (req, res, next) => {
+router.get('/runRecommendationSystem', (req, res) => {
   var spawn = require("child_process").spawn; 
   var process = spawn('python', ["movie_recommender.py"] );
 
@@ -97,8 +97,9 @@ router.get('/runRecommendationSystem', (req, res, next) => {
 });
 
 
+
 //get sentiment of the last review in the table
-router.get('/getSentimentOfLastReview', (req, res, next) => {
+router.get('/getSentimentOfLastReview', (req, res) => {
   // knex('SELECT sentiment FROM reviews ORDER BY id_review desc limit 1')
   knex
         .from('reviews')
@@ -135,7 +136,7 @@ router.post('/postMovieForRecommendation', (req, res) => {
 });
 
 //get the  recommended_movies from the last id_movie
-router.get('/getRecommendedMovies', (req, res, next) => {
+router.get('/getRecommendedMovies', (req, res) => {
   knex
         .from('movie')
         .select('recommended_movies')
@@ -153,7 +154,7 @@ router.get('/getRecommendedMovies', (req, res, next) => {
 
 //vreau sa imi ia random 3 review-uri pozitive si 3 negative in fiecare zi la ora 12:00
 //momentan fac cu primele 3 din baza de date
-router.get('/getPositiveReviews', (req, res, next) => {
+router.get('/getPositiveReviews', (req, res) => {
   knex
         .from('reviews')
         .select('content')
@@ -168,7 +169,7 @@ router.get('/getPositiveReviews', (req, res, next) => {
         })
 });
 
-router.get('/getNegativeReviews', (req, res, next) => {
+router.get('/getNegativeReviews', (req, res) => {
   knex
         .from('reviews')
         .select('content')

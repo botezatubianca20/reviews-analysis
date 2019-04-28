@@ -31,7 +31,6 @@ def get_title_from_index(index):
 
 def get_index_from_title(title):
 	return df[df.title == title]["index"].values[0]
-##################################################
 
 ##Step 1: Read CSV File
 df = pd.read_csv("movie_dataset.csv")
@@ -60,10 +59,27 @@ count_matrix = cv.fit_transform(df["combined_features"])
 
 ##Step 5: Compute the Cosine Similarity based on the count_matrix
 cosine_sim = cosine_similarity(count_matrix)
+
 movie_user_likes = myresult[0]
 
 ## Step 6: Get index of this movie from its title
 movie_index = get_index_from_title(movie_user_likes)
+
+
+# print(get_title_from_index(movie_index).find(movie_user_likes))
+# if get_title_from_index(movie_index).find("riso") >= 0:
+# 	new_movie_index = get_index_from_title(movie_user_likes)
+# 	print(new_movie_index)
+
+
+
+# if get_title_from_index(movie_index).find(movie_user_likes) >= 0 :
+# 	print(get_index_from_title(get_title_from_index(movie_index).find(movie_user_likes)))
+# 	movie_index = get_index_from_title(get_title_from_index(movie_index).find(movie_user_likes))
+
+
+
+
 
 similar_movies =  list(enumerate(cosine_sim[movie_index]))
 
