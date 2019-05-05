@@ -1,217 +1,236 @@
 import nltk
 import random
-# from nltk.corpus import movie_reviews
 from nltk.classify.scikitlearn import SklearnClassifier
 import pickle
-from sklearn.naive_bayes import MultinomialNB, BernoulliNB
+from sklearn.naive_bayes import MultinomialNB, GaussianNB, BernoulliNB
 from sklearn.linear_model import LogisticRegression, SGDClassifier
 from sklearn.svm import SVC, LinearSVC, NuSVC
 from nltk.classify import ClassifierI
 from statistics import mode
 from nltk.tokenize import word_tokenize
+from nltk.tokenize import WordPunctTokenizer
+
+short_pos = open("positive.txt", "r").read()
+short_neg = open("negative.txt", "r").read()
+
+all_words = []
+documents = []
+
+#j is adjective, r is adverb, v is verb
+allowed_word_types = ["J", "V", "R"]
+
+def update_stopwords(stopwords):
+    do_no_remove_these_sw = ['not', 'no', 'can','has','have','had','must','shan','do', 'should','was','were','won',
+                             'are','cannot','does','ain', 'could', 'did', 'is', 'might', 'need', 'would']
+    return [word for word in stopwords if word not in do_no_remove_these_sw]
 
 
-class VoteClassifier(ClassifierI): 
+def remove_stopwords(sentences_list, updated_stopwords):
+    filtered_sentence = []
+    for sentence in sentences_list:
+        filtered_sentence.append([w for w in sentence if not w in updated_stopwords])
+    return filtered_sentence
+
+
+
+
+for p in short_pos.split('\n'):
+    documents.append( (p, "pos") )
+
+    # stopwords = set(nltk.corpus.stopwords.words('english'))
+    # updated_stopwords = update_stopwords(stopwords)
+
+    words = word_tokenize(p)
+
+    # words = remove_stopwords(words, updated_stopwords)
+
+    pos = nltk.pos_tag(words)
+    for w in pos:
+        if w[1][0] in allowed_word_types and len(w[0]) >= 3:
+            all_words.append(w[0].lower())
+
+
+for p in short_neg.split('\n'):
+    documents.append( (p, "neg") )
+
+    # stopwords = set(nltk.corpus.stopwords.words('english'))
+    # updated_stopwords = update_stopwords(stopwords)
+
+    words = word_tokenize(p)
+
+    # words = remove_stopwords(words, updated_stopwords)
+
+    neg = nltk.pos_tag(words)
+    for w in neg:
+        if w[1][0] in allowed_word_types and len(w[0]) >= 3:
+            all_words.append(w[0].lower())
+
+save_documents = open("documents.pickle", "wb")
+pickle.dump(documents, save_documents)
+save_documents.close()
+
+
+# convert to an nltk frequency distribution
+all_words = nltk.FreqDist(all_words)
+# print(all_words.most_common(40))
+
+# we limit
+word_features = list(all_words.keys())[:5000]  # keys, nu ne intereseaza valorile
+
+save_word_features = open("word_features.pickle", "wb")
+pickle.dump(word_features, save_word_features)
+save_word_features.close()
+
+
+# function that find those features within the document that we're using
+def find_features(document):
+    # stopwords = set(nltk.corpus.stopwords.words('english'))
+    # updated_stopwords = update_stopwords(stopwords)
+    words = word_tokenize(document)
+    # words = WordPunctTokenizer().tokenize(document)
+
+    # words = remove_stopwords(words, updated_stopwords)
+
+
+    features = {}  # empty dictionary
+    for w in word_features:
+        features[w] = (w in words)  # true/false. Cheia este w, adica cuvantul din cele 3000 de cuvinte. Valoarea:true/false
+
+    return features
+
+
+# print((find_features(movie_reviews.words('neg/cv000_29416.txt')))) #cuvintele negative care se gasesc in cele 3000 cuvinte au true. cautam cuvintele practic in neg/cv...
+featuresets = [(find_features(rev), category) for (rev, category) in documents]
+
+
+random.shuffle(featuresets)
+print(len(featuresets))
+
+
+training_set = featuresets[10000:]
+testing_set = featuresets[:10000]
+
+
+classifier = nltk.NaiveBayesClassifier.train(training_set)
+print("Original Naive Bayes Algo accuracy percent: ", (nltk.classify.accuracy(classifier, testing_set)) * 100)
+classifier.show_most_informative_features(15)
+save_classifier = open("originalclassifier.pickle", "wb")
+pickle.dump(classifier, save_classifier)
+save_classifier.close()
+
+
+#SCIKIT-LEARN INCORPORATION
+
+#MultinomialNB
+MNB_classifier = SklearnClassifier(MultinomialNB())
+#now we ve got a classifier and now we can do the exact same thing as we did before
+
+#we want to train the classifier
+MNB_classifier.train(training_set)
+# print("MNB_classifier accuracy percent: ", (nltk.classify.accuracy(MNB_classifier, testing_set)) * 100)
+save_classifierMNB = open("MNBclassifier.pickle", "wb")
+pickle.dump(MNB_classifier, save_classifierMNB)
+save_classifierMNB.close()
+
+#GaussianNB
+# GaussianNB_classifier = SklearnClassifier(GaussianNB())
+# GaussianNB_classifier.train(training_set)
+# print("GaussianNB_classifier accuracy percent: ", (nltk.classify.accuracy(GaussianNB_classifier, testing_set)) * 100)
+
+
+#BernoulliNB
+BernoulliNB_classifier = SklearnClassifier(BernoulliNB())
+BernoulliNB_classifier.train(training_set)
+# print("BernoulliNB_classifier accuracy percent: ", (nltk.classify.accuracy(BernoulliNB_classifier, testing_set)) * 100)
+save_classifierBernoulli = open("Bernoulliclassifier.pickle", "wb")
+pickle.dump(BernoulliNB_classifier, save_classifierBernoulli)
+save_classifierBernoulli.close()
+
+#   LogisticRegression, SGDClassifier
+#   SVC, LinearSVC, NuSVC
+
+
+LogisticRegression_classifier = SklearnClassifier(LogisticRegression())
+LogisticRegression_classifier.train(training_set)
+# print("LogisticRegression_classifier accuracy percent: ", (nltk.classify.accuracy(LogisticRegression_classifier, testing_set)) * 100)
+save_classifierLogistic = open("Logisticclassifier.pickle", "wb")
+pickle.dump(LogisticRegression_classifier, save_classifierLogistic)
+save_classifierLogistic.close()
+
+SGDClassifier_classifier = SklearnClassifier(SGDClassifier())
+SGDClassifier_classifier.train(training_set)
+# print("SGDClassifier_classifier accuracy percent: ", (nltk.classify.accuracy(SGDClassifier_classifier, testing_set)) * 100)
+save_classifierSGDC = open("SGDCclassifier.pickle", "wb")
+pickle.dump(SGDClassifier_classifier, save_classifierSGDC)
+save_classifierSGDC.close()
+
+# SVC_classifier = SklearnClassifier(SVC())
+# SVC_classifier.train(training_set)
+# # print("SVC_classifier accuracy percent: ", (nltk.classify.accuracy(SVC_classifier, testing_set)) * 100)
+# save_classifierSVC = open("SVCclassifier.pickle", "wb")
+# pickle.dump(SVC_classifier, save_classifierSVC)
+# save_classifierSVC.close()
+
+
+
+LinearSVC_classifier = SklearnClassifier(LinearSVC())
+LinearSVC_classifier.train(training_set)
+# print("LinearSVC_classifier accuracy percent: ", (nltk.classify.accuracy(LinearSVC_classifier, testing_set)) * 100)
+save_classifierLinearSVC = open("LinearSVCclassifier.pickle", "wb")
+pickle.dump(LinearSVC_classifier, save_classifierLinearSVC)
+save_classifierLinearSVC.close()
+
+NuSVC_classifier = SklearnClassifier(NuSVC())
+NuSVC_classifier.train(training_set)
+# print("NuSVC_classifier accuracy percent: ", (nltk.classify.accuracy(NuSVC_classifier, testing_set)) * 100)
+save_classifierNuSVC = open("NuSVCclassifier.pickle", "wb")
+pickle.dump(NuSVC_classifier, save_classifierNuSVC)
+save_classifierNuSVC.close()
+
+# COMBINING ALGOS WITH A VOTE
+
+class VotesClassifier(ClassifierI):
     def __init__(self, *classifiers):
-        self._classifiers = classifiers
+        self.classifiers = classifiers
 
     def classify(self, features):
-        votes = []
-        for c in self._classifiers:
+        votes=[]
+        for c in self.classifiers:
             v = c.classify(features)
             votes.append(v)
         return mode(votes)
 
     def confidence(self, features):
         votes = []
-        for c in self._classifiers:
+        for c in self.classifiers:
             v = c.classify(features)
             votes.append(v)
-
         choice_votes = votes.count(mode(votes))
         conf = choice_votes / len(votes)
         return conf
 
 
-short_pos = open("positive.txt", "r").read()
-short_neg = open("negative.txt", "r").read()
-
-# move this up here
-all_words = []
-documents = []
-
-#  j is adject, r is adverb, and v is verb
-allowed_word_types = ["J","R","V"]
-# allowed_word_types = ["J"]
-
-for p in short_pos.split('\n'):
-    documents.append((p, "pos"))
-    words = word_tokenize(p)
-    pos = nltk.pos_tag(words)
-    for w in pos:
-        if w[1][0] in allowed_word_types:
-            all_words.append(w[0].lower())
-
-for p in short_neg.split('\n'):
-    documents.append((p, "neg"))
-    words = word_tokenize(p)
-    pos = nltk.pos_tag(words)
-    for w in pos:
-        if w[1][0] in allowed_word_types:
-            all_words.append(w[0].lower())
-
-save_documents = open("pickled_algos/documents.pickle", "wb")
-pickle.dump(documents, save_documents)
-save_documents.close()
-
-all_words = nltk.FreqDist(all_words)
-
-word_features = list(all_words.keys())[:5000]
-
-save_word_features = open("pickled_algos/word_features5k.pickle", "wb")
-pickle.dump(word_features, save_word_features)
-save_word_features.close()
 
 
-def find_features(document):
-    words = word_tokenize(document)
-    features = {}
-    for w in word_features:
-        features[w] = (w in words)
+voted_classifier = VotesClassifier(classifier,
+                                   MNB_classifier,
+                                   BernoulliNB_classifier,
+                                   LogisticRegression_classifier,
+                                   SGDClassifier_classifier,
+                                   LinearSVC_classifier,
+                                   NuSVC_classifier)
 
-    return features
+print("voted_classifier accuracy percent: ", (nltk.classify.accuracy(voted_classifier, testing_set)) * 100)
 
-
-featuresets = [(find_features(rev), category) for (rev, category) in documents]
-
-
-random.shuffle(featuresets)
-
-# save_featuresets = open("pickled_algos/featuresets.pickle", "wb")
-# pickle.dump(featuresets, save_featuresets)
-# save_featuresets.close()
-
-# print(len(featuresets))
-
-testing_set = featuresets[10000:]
-training_set = featuresets[:10000]
-
-classifier = nltk.NaiveBayesClassifier.train(training_set)
-print("Original Naive Bayes Algo accuracy percent:", (nltk.classify.accuracy(classifier, testing_set)) * 100)
-classifier.show_most_informative_features(15)
-
-###############
-save_classifier = open("pickled_algos/originalnaivebayes5k.pickle", "wb")
-pickle.dump(classifier, save_classifier)
-save_classifier.close()
-
-# MNB_classifier = SklearnClassifier(MultinomialNB())
-# MNB_classifier.train(training_set)
-# print("MNB_classifier accuracy percent:", (nltk.classify.accuracy(MNB_classifier, testing_set)) * 100)
-#
-# save_classifier = open("pickled_algos/MNB_classifier5k.pickle", "wb")
-# pickle.dump(MNB_classifier, save_classifier)
-# save_classifier.close()
-#
-# BernoulliNB_classifier = SklearnClassifier(BernoulliNB())
-# BernoulliNB_classifier.train(training_set)
-# print("BernoulliNB_classifier accuracy percent:", (nltk.classify.accuracy(BernoulliNB_classifier, testing_set)) * 100)
-#
-# save_classifier = open("pickled_algos/BernoulliNB_classifier5k.pickle", "wb")
-# pickle.dump(BernoulliNB_classifier, save_classifier)
-# save_classifier.close()
-#
-# LogisticRegression_classifier = SklearnClassifier(LogisticRegression())
-# LogisticRegression_classifier.train(training_set)
-# print("LogisticRegression_classifier accuracy percent:",
-#       (nltk.classify.accuracy(LogisticRegression_classifier, testing_set)) * 100)
-#
-# save_classifier = open("pickled_algos/LogisticRegression_classifier5k.pickle", "wb")
-# pickle.dump(LogisticRegression_classifier, save_classifier)
-# save_classifier.close()
-#
-# LinearSVC_classifier = SklearnClassifier(LinearSVC())
-# LinearSVC_classifier.train(training_set)
-# print("LinearSVC_classifier accuracy percent:", (nltk.classify.accuracy(LinearSVC_classifier, testing_set)) * 100)
-#
-# save_classifier = open("pickled_algos/LinearSVC_classifier5k.pickle", "wb")
-# pickle.dump(LinearSVC_classifier, save_classifier)
-# save_classifier.close()
-
-##NuSVC_classifier = SklearnClassifier(NuSVC())
-##NuSVC_classifier.train(training_set)
-##print("NuSVC_classifier accuracy percent:", (nltk.classify.accuracy(NuSVC_classifier, testing_set))*100)
+# print("Classification: ", voted_classifier.classify(testing_set[0][0]), "Confidence: ", voted_classifier.confidence(testing_set[0][0]) * 100)
+# print("Classification: ", voted_classifier.classify(testing_set[1][0]), "Confidence: ", voted_classifier.confidence(testing_set[1][0]) * 100)
+# print("Classification: ", voted_classifier.classify(testing_set[2][0]), "Confidence: ", voted_classifier.confidence(testing_set[2][0]) * 100)
+# print("Classification: ", voted_classifier.classify(testing_set[3][0]), "Confidence: ", voted_classifier.confidence(testing_set[3][0]) * 100)
+# print("Classification: ", voted_classifier.classify(testing_set[4][0]), "Confidence: ", voted_classifier.confidence(testing_set[4][0]) * 100)
+# print("Classification: ", voted_classifier.classify(testing_set[5][0]), "Confidence: ", voted_classifier.confidence(testing_set[5][0]) * 100)
 
 
-# SGDC_classifier = SklearnClassifier(SGDClassifier())
-# SGDC_classifier.train(training_set)
-# print("SGDClassifier accuracy percent:", nltk.classify.accuracy(SGDC_classifier, testing_set) * 100)
-#
-# save_classifier = open("pickled_algos/SGDC_classifier5k.pickle", "wb")
-# pickle.dump(SGDC_classifier, save_classifier)
-# save_classifier.close()
+def sentiment(text):
+    feats = find_features(text)
 
-
-####### ALE MELE
-#
-# #MultinomialNB
-# MNB_classifier = SklearnClassifier(MultinomialNB())
-# #now we ve got a classifier and now we can do the exact same thing as we did before
-#
-# #we want to train the classifier
-# MNB_classifier.train(training_set)
-# # print("MNB_classifier accuracy percent: ", (nltk.classify.accuracy(MNB_classifier, testing_set)) * 100)
-# save_classifierMNB = open("picked_algos/MNBclassifier.pickle", "wb")
-# pickle.dump(MNB_classifier, save_classifierMNB)
-# save_classifierMNB.close()
-#
-# #GaussianNB
-# # GaussianNB_classifier = SklearnClassifier(GaussianNB())
-# # GaussianNB_classifier.train(training_set)
-# # print("GaussianNB_classifier accuracy percent: ", (nltk.classify.accuracy(GaussianNB_classifier, testing_set)) * 100)
-#
-#
-# #BernoulliNB
-# BernoulliNB_classifier = SklearnClassifier(BernoulliNB())
-# BernoulliNB_classifier.train(training_set)
-# # print("BernoulliNB_classifier accuracy percent: ", (nltk.classify.accuracy(BernoulliNB_classifier, testing_set)) * 100)
-# save_classifierBernoulli = open("Bernoulliclassifier.pickle", "wb")
-# pickle.dump(BernoulliNB_classifier, save_classifierBernoulli)
-# save_classifierBernoulli.close()
-#
-# #   LogisticRegression, SGDClassifier
-# #   SVC, LinearSVC, NuSVC
-#
-#
-# LogisticRegression_classifier = SklearnClassifier(LogisticRegression())
-# LogisticRegression_classifier.train(training_set)
-# # print("LogisticRegression_classifier accuracy percent: ", (nltk.classify.accuracy(LogisticRegression_classifier, testing_set)) * 100)
-# save_classifierLogistic = open("Logisticclassifier.pickle", "wb")
-# pickle.dump(LogisticRegression_classifier, save_classifierLogistic)
-# save_classifierLogistic.close()
-#
-# SGDClassifier_classifier = SklearnClassifier(SGDClassifier())
-# SGDClassifier_classifier.train(training_set)
-# # print("SGDClassifier_classifier accuracy percent: ", (nltk.classify.accuracy(SGDClassifier_classifier, testing_set)) * 100)
-# save_classifierSGDC = open("SGDCclassifier.pickle", "wb")
-# pickle.dump(SGDClassifier_classifier, save_classifierSGDC)
-# save_classifierSGDC.close()
-#
-# # SVC_classifier = SklearnClassifier(SVC())
-# # SVC_classifier.train(training_set)
-# # print("SVC_classifier accuracy percent: ", (nltk.classify.accuracy(SVC_classifier, testing_set)) * 100)
-#
-#
-# LinearSVC_classifier = SklearnClassifier(LinearSVC())
-# LinearSVC_classifier.train(training_set)
-# # print("LinearSVC_classifier accuracy percent: ", (nltk.classify.accuracy(LinearSVC_classifier, testing_set)) * 100)
-# save_classifierLinearSVC = open("LinearSVCclassifier.pickle", "wb")
-# pickle.dump(LinearSVC_classifier, save_classifierLinearSVC)
-# save_classifierLinearSVC.close()
-#
-# NuSVC_classifier = SklearnClassifier(NuSVC())
-# NuSVC_classifier.train(training_set)
-# # print("NuSVC_classifier accuracy percent: ", (nltk.classify.accuracy(NuSVC_classifier, testing_set)) * 100)
-# save_classifierNuSVC = open("NuSVCclassifier.pickle", "wb")
-# pickle.dump(NuSVC_classifier, save_classifierNuSVC)
-# save_classifierNuSVC.close()
+    return voted_classifier.classify(feats)
