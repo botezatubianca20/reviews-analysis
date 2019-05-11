@@ -48,6 +48,13 @@ export class ReviewsService {
     return this.http.get(`http://localhost:3001/reviews/getNegativeReviews`);
   }
 
+  getReviewsAddedByUser(title){
+    return this.http.get("http://localhost:3001/reviews/getReviewsAddedByUser/" + title);
+  }
+
+  getSentimentForSpecificReview(title, author){
+    return this.http.get("http://localhost:3001/reviews/getSentimentForSpecificReview/" + title + "/" + author);
+  }
 
  
 }

@@ -26,6 +26,7 @@ export class MovieComponent implements OnInit {
   reviewInserted: any = {};
   listOfReviews: any = [];
   reviewsAddedByUser: boolean = false;
+  showAnalysisAfterInsert: boolean = false;
 
 
   constructor(private router: ActivatedRoute,
@@ -54,23 +55,65 @@ export class MovieComponent implements OnInit {
             this.reviewId = x.results[0].id;
             console.log(this.reviewId)
 
-            this.moviedb.getReview(this.reviewId)
-            .subscribe(y => {
+            this.moviedb.getReview(this.reviewId).subscribe(y => {
     
               this.review=y;
               console.log(this.review)
 
-              this.reviewsService.addReview(this.review).toPromise().then(res => {
-                console.log(res);
-                this.analyze = true;
+              //verific daca este in baza de date si daca are review-ul completat
+              this.reviewsService.getSentimentForSpecificReview(this.review.media_title, this.review.author).subscribe(response => {
+                if(response[0][0]){
+                  console.log(response[0][0].sentiment);
+  
+                  if(response[0][0].sentiment != 0){
+                    this.show = true;
+                    this.finalSentiment = response[0][0].sentiment; 
+                  }
+                  // else{
+                    
+                  //   this.reviewsService.addReview(this.review).toPromise().then(res => {
+                  //     console.log(res);
+                  //     this.analyze = true;
+                  //     console.log(this.analyze)
+                  //   })
+                  // }
+                } 
+                //nu este in baza de date si il adaug acum
+                else{
+                   this.reviewsService.addReview(this.review).toPromise().then(res => {
+                    console.log(res);
+                    this.analyze = true;
+                    console.log(this.analyze)
+                  })
+                } 
+                
               })
+ 
 
                
             })
           }
           else{
-            this.reviewNotAvailable = true;
+
+              this.reviewNotAvailable = true;
+
           }
+
+            //verific daca am review-uri adaugate de alti useri
+            this.reviewsService.getReviewsAddedByUser(this.movie.title).subscribe(reviewResult => {
+              console.log(reviewResult[0]); 
+              if(reviewResult[0].length > 0){
+                this.reviewsAddedByUser = true;
+                this.showAnalysisAfterInsert = true;
+                this.listOfReviews = reviewResult[0];
+                console.log(this.listOfReviews)
+
+                //pt fiecare review in parte trebuie sa epelez getSentimentForSpecificReview()
+              }
+             
+            })
+            
+          
         })
 
         if(localStorage.getItem('name') != null){
@@ -85,7 +128,7 @@ export class MovieComponent implements OnInit {
   runAnalysisFunction(){
     // this.runAnalysis = false;
     this.spinner.show();
-    console.log(this.runAnalysis)
+
     //sa ruleze partea de python
     //sa ia la final sentimentul din tabela si sa afiseze pe ecran
     if(this.analyze == true){
@@ -94,17 +137,20 @@ export class MovieComponent implements OnInit {
         console.log("gata")
   
         this.reviewsService.getSentimentOfLastReview().subscribe(resp => {
-          // console.log(resp)
+          // console.log(resp) 
           console.log(resp[0].sentiment)
           this.finalSentiment = resp[0].sentiment;
           this.show = true;
+          this.showAnalysisAfterInsert = true;
           // this.runAnalysis = true;
-          this.spinner.hide();
-          console.log(this.runAnalysis)
+          this.spinner.hide(); 
+
            })
       })
     }
   }
+
+  //cand se adauga review de la user, atunci trebuie sa apara butonul de runAnalysis pentru el
 
   addReviewByUser(){
     // console.log(this.movie.title)
@@ -121,7 +167,8 @@ export class MovieComponent implements OnInit {
       }
       this.reviewsService.addReview(this.reviewInserted).toPromise().then(res => {
         console.log(res);
-        // this.analyze = true;
+        this.showAnalysisAfterInsert = false;
+        this.analyze = true;
       })
       this.listOfReviews.push(this.reviewInserted);
       console.log(this.listOfReviews);

@@ -187,11 +187,54 @@ router.get('/getNegativeReviews', (req, res) => {
 //TO BE DONE:
 
 //get all the reviews from the database for a specific movie with url=""
+router.get('/getReviewsAddedByUser/:media_title', (req, res) => {
+  knex.raw("SELECT * FROM `reviews` where url='' and media_title='" + req.params.media_title + "'")
+        .then((reviews) => {
+            res.send(reviews);
+        })
+        .catch((error) => {
+            res.send(error);
+        })
+});
+
+
+//delete review by id (this should happen only for reviews added by that user)
+router.delete('/deleteReviewAddedByUser/:id_review', (req, res) => {
+  knex.raw("delete FROM `reviews` where id_review=" + req.params.id_review)
+        .then((reviews) => {
+            res.send(reviews);
+        })
+        .catch((error) => {
+            res.send(error);
+        })
+});
+
+
+router.get('/getSentimentForSpecificReview/:media_title/:author', (req, res) => {
+  knex.raw("SELECT sentiment FROM `reviews` where media_title='" + req.params.media_title + "' and author = '" + req.params.author + "'")
+        .then((reviews) => {
+            res.send(reviews);
+        })
+        .catch((error) => {
+            res.send(error);
+        })
+});
 
 
 
-//review analysis for a review with a specific id
-
+//sentiment for a review with a specific id
+// router.get('/getSentimentOfReviewById/:id_review', (req, res) => {
+//   knex
+//         .from('reviews')
+//         .select('sentiment')
+//         .where('id_review', '=', req.params.id_review)
+//         .then((sentiment) => {
+//             res.send(sentiment);
+//         })
+//         .catch((error) => {
+//             res.send(error);
+//         })
+// });
 
 
   module.exports = router;
