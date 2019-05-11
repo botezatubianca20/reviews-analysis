@@ -23,7 +23,7 @@
     <div class="col-md-7">
       <h3>Overview</h3>
       <hr>
-      <p class="text-justify">
+      <p id = "rev" class="text-justify">
         {{ movie.overview }}
       </p>
       <br><br>
@@ -38,6 +38,24 @@
           {{ review.content }}
         </p>
       </div>
+
+      <div *ngIf="reviewsAddedByUser">
+        <div *ngFor="let review of listOfReviews">
+          <hr>
+        <p class="text-justify">
+          <b>{{ review.author }}:</b>
+        </p>
+        <p class="text-justify">
+          {{ review.content }}
+        </p>
+        </div>
+      </div>
+
+      <button class="btn btn-secondary" *ngIf="analyze == true" (click)="runAnalysisFunction()">Check Review Sentiment!</button><br><br>
+
+      <!-- <div *ngIf="runAnalysis == false">
+      Loading...
+      </div> -->
 
       <div *ngIf="show">
         <h3>Review Sentiment Analysis</h3>
@@ -55,7 +73,17 @@
 
       </div>
 
+      <div *ngIf="showAddReview">
+        <h3>Add a review to this movie:</h3>
+        <hr>
+        <textarea [ngClass]="{'error': errorMessage != ''}" name="body" rows="7" cols="80" placeholder="" class="form-control" [(ngModel)]="text" (ngModelChange)="changeCommentContent($event)" ></textarea> 
+        <br>
+        <button [disabled]="disableSubmitReview" class="btn btn-secondary" (click)="addReviewByUser()" >Add review</button>
+      </div>
+
 
     </div>
   </div>
 </div>
+
+<ngx-spinner></ngx-spinner>

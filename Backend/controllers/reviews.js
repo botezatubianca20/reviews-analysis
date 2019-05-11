@@ -184,5 +184,14 @@ router.get('/getNegativeReviews', (req, res) => {
         })
 });
 
+//TO BE DONE:
+
+//get all the reviews from the database for a specific movie with url=""
+
+
+
+//review analysis for a review with a specific id
+
+
 
   module.exports = router;

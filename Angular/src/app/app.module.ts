@@ -16,6 +16,8 @@ import { ReviewsComponent } from './components/reviews/reviews.component';
 import { RecommendationComponent } from './components/recommendation/recommendation.component';
 import {FacebookLoginProvider, GoogleLoginProvider, AuthServiceConfig, SocialLoginModule} from 'ng4-social-login';
 import { LoginComponent } from './login/login.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { FormsModule } from '@angular/forms';
 
 
 const config = new AuthServiceConfig([
@@ -54,7 +56,9 @@ export function provideConfig(){
     AppRoutingModule,
     HttpClientModule,
     HttpClientJsonpModule,
-    SocialLoginModule
+    SocialLoginModule,
+    NgxSpinnerModule,
+    FormsModule
   ],
   providers: [
     HttpClientModule,
