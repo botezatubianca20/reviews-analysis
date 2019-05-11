@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
   <a class="navbar-brand" href="#">
     <img src="assets/videocamera_3-512.png" width="30" height="30" alt="" />
@@ -25,8 +26,12 @@
       <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" routerLink="recommendation">Movie Recommendation</a>
       </li>
-      <li class="nav-item" routerLinkActive="active">
+      <li class="nav-item" routerLinkActive="active" *ngIf="!showLogOut">
         <a class="nav-link" routerLink="login">Log In</a>
+      </li>
+
+      <li class="nav-item" routerLinkActive="active" *ngIf="showLogOut">
+        <a class="nav-link" (click)="logOut()" >Log Out</a>
       </li>
 
 

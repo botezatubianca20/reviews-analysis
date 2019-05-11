@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MoviedbService } from '../../services/moviedb.service';
 
 @Component({
@@ -11,9 +11,11 @@ export class HomeComponent implements OnInit {
   newMovies: any[] = [];
   loading: boolean;
 
+
   constructor(private moviedb: MoviedbService) { }
 
   ngOnInit() {
+
 
     this.loading = true;
 
