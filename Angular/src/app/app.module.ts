@@ -14,6 +14,24 @@ import { NavbarGenresComponent } from './components/navbar-genres/navbar-genres.
 import { GenreMovieComponent } from './components/genre-movie/genre-movie.component';
 import { ReviewsComponent } from './components/reviews/reviews.component';
 import { RecommendationComponent } from './components/recommendation/recommendation.component';
+import {FacebookLoginProvider, GoogleLoginProvider, AuthServiceConfig, SocialLoginModule} from 'ng4-social-login';
+import { LoginComponent } from './login/login.component';
+
+
+const config = new AuthServiceConfig([
+  {
+    id: GoogleLoginProvider.PROVIDER_ID,
+    provider: new GoogleLoginProvider('1050608807819-l6gpbfa8dobfmf4ddiutbu28a795s47a.apps.googleusercontent.com')
+  },
+  {
+    id: FacebookLoginProvider.PROVIDER_ID,
+    provider: new FacebookLoginProvider('380909745850905')
+  }
+], false);
+
+export function provideConfig(){
+  return config;
+}
 
 @NgModule({
   declarations: [
@@ -28,15 +46,20 @@ import { RecommendationComponent } from './components/recommendation/recommendat
     NavbarGenresComponent,
     GenreMovieComponent,
     ReviewsComponent,
-    RecommendationComponent
+    RecommendationComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    HttpClientJsonpModule 
+    HttpClientJsonpModule,
+    SocialLoginModule
   ],
-  providers: [HttpClientModule],
+  providers: [
+    HttpClientModule,
+    {provide: AuthServiceConfig, useFactory: provideConfig}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

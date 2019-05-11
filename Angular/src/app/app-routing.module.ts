@@ -7,6 +7,7 @@ import { GenresComponent } from './components/genres/genres.component';
 import { GenreMovieComponent } from './components/genre-movie/genre-movie.component';
 import { ReviewsComponent } from './components/reviews/reviews.component';
 import { RecommendationComponent } from './components/recommendation/recommendation.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -16,7 +17,8 @@ const routes: Routes = [
   { path: "genres", component: GenresComponent },
   { path: 'genres/:id', component: GenreMovieComponent },
   { path: 'reviews', component: ReviewsComponent },
-  { path: 'recommendation', component: RecommendationComponent }
+  { path: 'recommendation', component: RecommendationComponent },
+  { path: 'login', component: LoginComponent }
 ];
 
 @NgModule({
