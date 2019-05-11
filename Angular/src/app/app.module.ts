@@ -28,7 +28,7 @@ const config = new AuthServiceConfig([
     provider: new FacebookLoginProvider('380909745850905')
   }
 ], false);
-
+ 
 export function provideConfig(){
   return config;
 }
