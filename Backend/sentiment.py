@@ -9,6 +9,8 @@ from nltk.classify import ClassifierI
 from statistics import mode
 from nltk.tokenize import word_tokenize
 from nltk.tokenize import WordPunctTokenizer
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 
 short_pos = open("positive.txt", "r").read()
 short_neg = open("negative.txt", "r").read()
@@ -167,7 +169,7 @@ save_classifierSGDC.close()
 
 # SVC_classifier = SklearnClassifier(SVC())
 # SVC_classifier.train(training_set)
-# # print("SVC_classifier accuracy percent: ", (nltk.classify.accuracy(SVC_classifier, testing_set)) * 100)
+# print("SVC_classifier accuracy percent: ", (nltk.classify.accuracy(SVC_classifier, testing_set)) * 100)
 # save_classifierSVC = open("SVCclassifier.pickle", "wb")
 # pickle.dump(SVC_classifier, save_classifierSVC)
 # save_classifierSVC.close()
@@ -187,6 +189,21 @@ print("NuSVC_classifier accuracy percent: ", (nltk.classify.accuracy(NuSVC_class
 save_classifierNuSVC = open("NuSVCclassifier.pickle", "wb")
 pickle.dump(NuSVC_classifier, save_classifierNuSVC)
 save_classifierNuSVC.close()
+
+# DecisionTree_classifier = SklearnClassifier(DecisionTreeClassifier())
+# DecisionTree_classifier.train(training_set)
+# print("DecisionTree_classifier accuracy percent: ", (nltk.classify.accuracy(DecisionTree_classifier, testing_set)) * 100)
+# save_classifierDecisionTree = open("DecisionTree_classifier.pickle", "wb")
+# pickle.dump(DecisionTree_classifier, save_classifierDecisionTree)
+# save_classifierDecisionTree.close()
+
+# RandomForest_classifier = SklearnClassifier(RandomForestClassifier())
+# RandomForest_classifier.train(training_set)
+# print("RandomForest_classifier accuracy percent: ", (nltk.classify.accuracy(RandomForest_classifier, testing_set)) * 100)
+# save_classifierRandomForest = open("RandomForest_classifier.pickle", "wb")
+# pickle.dump(RandomForest_classifier, save_classifierRandomForest)
+# save_classifierRandomForest.close()
+
 
 # COMBINING ALGOS WITH A VOTE
 
@@ -219,7 +236,8 @@ voted_classifier = VotesClassifier(classifier,
                                    LogisticRegression_classifier,
                                    SGDClassifier_classifier,
                                    LinearSVC_classifier,
-                                   NuSVC_classifier)
+                                   NuSVC_classifier,
+                                  )
 
 print("voted_classifier accuracy percent: ", (nltk.classify.accuracy(voted_classifier, testing_set)) * 100)
 
