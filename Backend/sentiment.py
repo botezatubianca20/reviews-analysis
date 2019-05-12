@@ -42,7 +42,7 @@ for p in short_pos.split('\n'):
 
     words = word_tokenize(p)
 
-    # words = remove_stopwords(words, updated_stopwords)
+    # words2 = remove_stopwords(words, updated_stopwords)
 
     pos = nltk.pos_tag(words)
     for w in pos:
@@ -58,7 +58,7 @@ for p in short_neg.split('\n'):
 
     words = word_tokenize(p)
 
-    # words = remove_stopwords(words, updated_stopwords)
+    # words2 = remove_stopwords(words, updated_stopwords)
 
     neg = nltk.pos_tag(words)
     for w in neg:
@@ -103,12 +103,13 @@ def find_features(document):
 featuresets = [(find_features(rev), category) for (rev, category) in documents]
 
 
-random.shuffle(featuresets)
+# random.shuffle(featuresets)
 print(len(featuresets))
 
 
-training_set = featuresets[10000:]
-testing_set = featuresets[:10000]
+training_set = featuresets[:10000]
+testing_set = featuresets[10000:]
+
 
 
 classifier = nltk.NaiveBayesClassifier.train(training_set)
@@ -127,7 +128,7 @@ MNB_classifier = SklearnClassifier(MultinomialNB())
 
 #we want to train the classifier
 MNB_classifier.train(training_set)
-# print("MNB_classifier accuracy percent: ", (nltk.classify.accuracy(MNB_classifier, testing_set)) * 100)
+print("MNB_classifier accuracy percent: ", (nltk.classify.accuracy(MNB_classifier, testing_set)) * 100)
 save_classifierMNB = open("MNBclassifier.pickle", "wb")
 pickle.dump(MNB_classifier, save_classifierMNB)
 save_classifierMNB.close()
@@ -141,7 +142,7 @@ save_classifierMNB.close()
 #BernoulliNB
 BernoulliNB_classifier = SklearnClassifier(BernoulliNB())
 BernoulliNB_classifier.train(training_set)
-# print("BernoulliNB_classifier accuracy percent: ", (nltk.classify.accuracy(BernoulliNB_classifier, testing_set)) * 100)
+print("BernoulliNB_classifier accuracy percent: ", (nltk.classify.accuracy(BernoulliNB_classifier, testing_set)) * 100)
 save_classifierBernoulli = open("Bernoulliclassifier.pickle", "wb")
 pickle.dump(BernoulliNB_classifier, save_classifierBernoulli)
 save_classifierBernoulli.close()
@@ -152,14 +153,14 @@ save_classifierBernoulli.close()
 
 LogisticRegression_classifier = SklearnClassifier(LogisticRegression())
 LogisticRegression_classifier.train(training_set)
-# print("LogisticRegression_classifier accuracy percent: ", (nltk.classify.accuracy(LogisticRegression_classifier, testing_set)) * 100)
+print("LogisticRegression_classifier accuracy percent: ", (nltk.classify.accuracy(LogisticRegression_classifier, testing_set)) * 100)
 save_classifierLogistic = open("Logisticclassifier.pickle", "wb")
 pickle.dump(LogisticRegression_classifier, save_classifierLogistic)
 save_classifierLogistic.close()
 
 SGDClassifier_classifier = SklearnClassifier(SGDClassifier())
 SGDClassifier_classifier.train(training_set)
-# print("SGDClassifier_classifier accuracy percent: ", (nltk.classify.accuracy(SGDClassifier_classifier, testing_set)) * 100)
+print("SGDClassifier_classifier accuracy percent: ", (nltk.classify.accuracy(SGDClassifier_classifier, testing_set)) * 100)
 save_classifierSGDC = open("SGDCclassifier.pickle", "wb")
 pickle.dump(SGDClassifier_classifier, save_classifierSGDC)
 save_classifierSGDC.close()
@@ -175,14 +176,14 @@ save_classifierSGDC.close()
 
 LinearSVC_classifier = SklearnClassifier(LinearSVC())
 LinearSVC_classifier.train(training_set)
-# print("LinearSVC_classifier accuracy percent: ", (nltk.classify.accuracy(LinearSVC_classifier, testing_set)) * 100)
+print("LinearSVC_classifier accuracy percent: ", (nltk.classify.accuracy(LinearSVC_classifier, testing_set)) * 100)
 save_classifierLinearSVC = open("LinearSVCclassifier.pickle", "wb")
 pickle.dump(LinearSVC_classifier, save_classifierLinearSVC)
 save_classifierLinearSVC.close()
 
 NuSVC_classifier = SklearnClassifier(NuSVC())
 NuSVC_classifier.train(training_set)
-# print("NuSVC_classifier accuracy percent: ", (nltk.classify.accuracy(NuSVC_classifier, testing_set)) * 100)
+print("NuSVC_classifier accuracy percent: ", (nltk.classify.accuracy(NuSVC_classifier, testing_set)) * 100)
 save_classifierNuSVC = open("NuSVCclassifier.pickle", "wb")
 pickle.dump(NuSVC_classifier, save_classifierNuSVC)
 save_classifierNuSVC.close()
