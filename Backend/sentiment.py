@@ -19,7 +19,7 @@ all_words = []
 documents = []
 
 #j is adjective, r is adverb, v is verb
-allowed_word_types = ["J", "V", "R"]
+allowed_word_types = ["J", "R"]
 
 def update_stopwords(stopwords):
     do_no_remove_these_sw = ['not', 'no', 'can','has','have','had','must','shan','do', 'should','was','were','won',
