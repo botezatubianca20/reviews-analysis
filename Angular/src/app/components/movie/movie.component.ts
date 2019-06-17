@@ -27,6 +27,7 @@ export class MovieComponent implements OnInit {
   listOfReviews: any = [];
   reviewsAddedByUser: boolean = false;
   showAnalysisAfterInsert: boolean = false;
+  finalProcent: any;
 
 
   constructor(private router: ActivatedRoute,
@@ -68,6 +69,9 @@ export class MovieComponent implements OnInit {
                   if(response[0][0].sentiment != 0){
                     this.show = true;
                     this.finalSentiment = response[0][0].sentiment; 
+                    this.finalProcent = +response[0][0].procent;
+                    this.finalProcent = this.finalProcent * 100;
+                    console.log(this.finalProcent)
                   }
                   // else{
                     
@@ -140,6 +144,9 @@ export class MovieComponent implements OnInit {
           // console.log(resp) 
           console.log(resp[0].sentiment)
           this.finalSentiment = resp[0].sentiment;
+          this.finalProcent = +resp[0].procent;
+          this.finalProcent = this.finalProcent * 100;
+          console.log(this.finalProcent)
           this.show = true;
           this.showAnalysisAfterInsert = true;
           // this.runAnalysis = true;

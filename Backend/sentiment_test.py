@@ -21,12 +21,14 @@ id = mycursor.fetchone()
 # print(id[0])
 
 result = s.sentiment(str(myresult))
+procentage = result[1]
+print(procentage)
 print(result[0])
 
 if result[0] == 'neg':
-    sql = "UPDATE reviews SET sentiment = -1 WHERE id_review = " + str(id[0])
+    sql = "UPDATE reviews SET sentiment = -1, procent = '" + str(procentage) + "' WHERE id_review = " + str(id[0])
 elif result[0] == 'pos':
-    sql = "UPDATE reviews SET sentiment = 1 WHERE id_review = " + str(id[0])
+    sql = "UPDATE reviews SET sentiment = 1, procent = '" + str(procentage) + "' WHERE id_review = " + str(id[0])
 
 mycursor.execute(sql)
 mydb.commit()

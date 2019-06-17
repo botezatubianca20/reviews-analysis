@@ -43,12 +43,12 @@
           <hr>
           <div *ngIf="finalSentiment === 1">
               <p class="text-justify">
-                  <b>The review is positive!</b>
+                  <b>The review is positive!</b> ({{finalProcent}} %)
                 </p>
           </div>
           <div *ngIf="finalSentiment === -1">
               <p class="text-justify">
-                  <b>The review is negative!</b>
+                  <b>The review is negative!</b>  ({{finalProcent}} %)
                 </p>
           </div>
   
@@ -71,12 +71,12 @@
           <hr>
           <div *ngIf="review.sentiment === 1">
               <p class="text-justify">
-                  <b>The review is positive!</b>
+                  <b>The review is positive!</b> ({{finalProcent}} %)
                 </p>
           </div>
           <div *ngIf="review.sentiment === -1">
               <p class="text-justify">
-                  <b>The review is negative!</b>
+                  <b>The review is negative!</b> ({{finalProcent}} %)
                 </p>
           </div>
   

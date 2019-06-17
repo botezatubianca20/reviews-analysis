@@ -77,7 +77,7 @@ all_words = nltk.FreqDist(all_words)
 # print(all_words.most_common(40))
 
 # we limit
-word_features = list(all_words.keys())[:5000]  # keys, nu ne intereseaza valorile
+word_features = list(all_words.keys())[:20000]  # keys, nu ne intereseaza valorile
 
 save_word_features = open("word_features.pickle", "wb")
 pickle.dump(word_features, save_word_features)

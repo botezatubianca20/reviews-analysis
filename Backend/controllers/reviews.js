@@ -100,12 +100,12 @@ router.get('/runRecommendationSystem', (req, res) => {
 
 //get sentiment of the last review in the table
 router.get('/getSentimentOfLastReview', (req, res) => {
-  // knex('SELECT sentiment FROM reviews ORDER BY id_review desc limit 1')
-  knex
-        .from('reviews')
-        .select('sentiment')
-        .orderBy('id_review', 'desc')
-        .limit(1)
+  knex.raw('SELECT sentiment, procent FROM reviews ORDER BY id_review desc limit 1')
+  // knex
+  //       .from('reviews')
+  //       .select('sentiment')
+  //       .orderBy('id_review', 'desc')
+  //       .limit(1)
         .then((sentiment) => {
             res.send(sentiment);
         })
@@ -211,7 +211,7 @@ router.delete('/deleteReviewAddedByUser/:id_review', (req, res) => {
 
 
 router.get('/getSentimentForSpecificReview/:media_title/:author', (req, res) => {
-  knex.raw("SELECT sentiment FROM `reviews` where media_title='" + req.params.media_title + "' and author = '" + req.params.author + "'")
+  knex.raw("SELECT sentiment, procent FROM `reviews` where media_title='" + req.params.media_title + "' and author = '" + req.params.author + "'")
         .then((reviews) => {
             res.send(reviews);
         })
