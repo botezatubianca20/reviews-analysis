@@ -54,17 +54,17 @@ router.get('/runSentimentAnalysis', (req, res) => {
     })
   });
   
-  process.stderr.on('data', (data) => {
-    // console.log(`stderr: ${data}`);
-  });
+  // process.stderr.on('data', (data) => {
+  //   // console.log(`stderr: ${data}`);
+  // });
   
-  process.on('close', (code) => {
-    // console.log(`child process exited with code ${code}`);
-    res.json({
-      success: false,
-      message: "Error. Please try again later."
-    })
-  });
+  // process.on('close', (code) => {
+  //   // console.log(`child process exited with code ${code}`);
+  //   res.json({
+  //     success: false,
+  //     message: "Error. Please try again later."
+  //   })
+  // });
 });
 
 
@@ -83,17 +83,17 @@ router.get('/runRecommendationSystem', (req, res) => {
 
   });
   
-  process.stderr.on('data', (data) => {
-    // console.log(`stderr: ${data}`);
-  });
+  // process.stderr.on('data', (data) => {
+  //   // console.log(`stderr: ${data}`);
+  // });
   
-  process.on('close', (code) => {
-    // console.log(`child process exited with code ${code}`);
-    res.json({
-      success: false,
-      message: "Error. Please try again later."
-    })
-  });
+  // process.on('close', (code) => {
+  //   // console.log(`child process exited with code ${code}`);
+  //   res.json({
+  //     success: false,
+  //     message: "Error. Please try again later."
+  //   })
+  // });
 });
 
 

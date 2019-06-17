@@ -151,6 +151,7 @@ export class MovieComponent implements OnInit {
           this.showAnalysisAfterInsert = true;
           // this.runAnalysis = true;
           this.spinner.hide(); 
+          window.location.reload();
 
            })
       })
