@@ -5,12 +5,12 @@
     <div class="col-md-5">
       <img [src]="movie | movieImg" [alt]="movie.original_title" class="img-thumbnail img-fluid">
       <br><br><br>
-      <h4>Release date:</h4>
+      <h4>Data aparitiei:</h4>
       <hr>
       <p>{{ movie.release_date }}</p>
 
       <br><br>
-      <h4>Genres:</h4>
+      <h4>Genuri:</h4>
       <hr>
       <div *ngFor="let genre of movie.genres">
         <p>{{genre.name}}</p>
@@ -21,7 +21,7 @@
 
 
     <div class="col-md-7">
-      <h3>Overview</h3>
+      <h3>Prezentare generala</h3>
       <hr>
       <p id = "rev" class="text-justify">
         {{ movie.overview }}
@@ -29,7 +29,7 @@
       <br><br>
 
       <div *ngIf="!reviewNotAvailable">
-        <h3>Reviews:</h3>
+        <h3>Review-uri:</h3>
         <hr>
         <p class="text-justify">
           <b>{{ review.author }}:</b>
@@ -39,16 +39,16 @@
         </p>
 
         <div *ngIf="show">
-          <h3>Review Sentiment Analysis</h3>
+          <h3>Analiza de sentiment review</h3>
           <hr>
           <div *ngIf="finalSentiment === 1">
               <p class="text-justify">
-                  <b>The review is positive!</b> ({{finalProcent}} %)
+                  <b>Review-ul este pozitiv!</b> ({{finalProcent}} %)
                 </p>
           </div>
           <div *ngIf="finalSentiment === -1">
               <p class="text-justify">
-                  <b>The review is negative!</b>  ({{finalProcent}} %)
+                  <b>Review-ul este negativ!</b>  ({{finalProcent}} %)
                 </p>
           </div>
   
@@ -67,16 +67,16 @@
         </p>
 
         <div *ngIf="showAnalysisAfterInsert">
-          <h3>Review Sentiment Analysis</h3>
+          <h3>Analiza de sentiment review</h3>
           <hr>
           <div *ngIf="review.sentiment === 1">
               <p class="text-justify">
-                  <b>The review is positive!</b> ({{finalProcent}} %)
+                  <b>Review-ul este pozitiv!</b> ({{finalProcent}} %)
                 </p>
           </div>
           <div *ngIf="review.sentiment === -1">
               <p class="text-justify">
-                  <b>The review is negative!</b> ({{finalProcent}} %)
+                  <b>Review-ul este negativ!</b> ({{finalProcent}} %)
                 </p>
           </div>
   
@@ -95,11 +95,11 @@
       
 
       <div *ngIf="showAddReview">
-        <h3>Add a review to this movie:</h3>
+        <h3>Adauga un review:</h3>
         <hr>
         <textarea [ngClass]="{'error': errorMessage != ''}" name="body" rows="7" cols="80" placeholder="" class="form-control" [(ngModel)]="text" (ngModelChange)="changeCommentContent($event)" ></textarea> 
         <br>
-        <button [disabled]="disableSubmitReview" class="btn btn-secondary" (click)="addReviewByUser()" >Add review</button>
+        <button [disabled]="disableSubmitReview" class="btn btn-secondary" (click)="addReviewByUser()" >Adaugare review</button>
       </div>
 
 
