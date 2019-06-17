@@ -40,31 +40,17 @@ router.post('/addReview', (req, res) => {
 });
 
 
-//
+
 router.get('/runSentimentAnalysis', (req, res) => {
   var spawn = require("child_process").spawn; 
   var process = spawn('python', ["sentiment_test.py"] );
 
   process.stdout.on('data', (data) => {
-    // console.log(`${data}`);
-    // res.send(data)
     res.json({
       success: true,
       message: data
     })
   });
-  
-  // process.stderr.on('data', (data) => {
-  //   // console.log(`stderr: ${data}`);
-  // });
-  
-  // process.on('close', (code) => {
-  //   // console.log(`child process exited with code ${code}`);
-  //   res.json({
-  //     success: false,
-  //     message: "Error. Please try again later."
-  //   })
-  // });
 });
 
 
@@ -73,27 +59,11 @@ router.get('/runRecommendationSystem', (req, res) => {
   var process = spawn('python', ["movie_recommender.py"] );
 
   process.stdout.on('data', (data) => {
-    // console.log(`${data}`);
-
-      // res.send(data);
       res.json({
         success: true,
         message: data
       })
-
   });
-  
-  // process.stderr.on('data', (data) => {
-  //   // console.log(`stderr: ${data}`);
-  // });
-  
-  // process.on('close', (code) => {
-  //   // console.log(`child process exited with code ${code}`);
-  //   res.json({
-  //     success: false,
-  //     message: "Error. Please try again later."
-  //   })
-  // });
 });
 
 
