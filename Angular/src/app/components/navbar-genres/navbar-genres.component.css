@@ -5,7 +5,7 @@
   z-index: 1;
   top: 1;
   right: 0;
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.185);
   overflow-x: hidden;
   padding-top: 20px;
 }
@@ -14,12 +14,12 @@
   padding: 6px 8px 6px 16px;
   text-decoration: none;
   font-size: 14px;
-  color: #818181;
+  color: black;
   display: block;
 }
 
 .sidenav a:hover {
-  color: #f1f1f1;
+  color: #555353;
 }
 
 .main {
@@ -48,3 +48,4 @@ body {
 .nav-link {
   cursor: pointer;
 }
+

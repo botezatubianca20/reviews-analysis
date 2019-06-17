@@ -1,12 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 
 body {
-    background-color: black;
-    color: white !important;
+    background-color: rgba(0, 0, 0, 0.185);
+    color: black !important;
   }
   
   hr {
-    border-color: white;
+    border-color: black;
   }
   
   .puntero {
