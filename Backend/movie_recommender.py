@@ -61,6 +61,7 @@ count_matrix = cv.fit_transform(df["combined_features"])
 cosine_sim = cosine_similarity(count_matrix)
 
 movie_user_likes = myresult[0]
+# movie_user_likes = "Prison"
 
 ## Step 6: Get index of this movie from its title
 movie_index = get_index_from_title(movie_user_likes)
@@ -82,21 +83,27 @@ movie_index = get_index_from_title(movie_user_likes)
 
 
 similar_movies =  list(enumerate(cosine_sim[movie_index]))
+# print(similar_movies)
+
 
 ## Step 7: Get a list of similar movies in descending order of similarity score
 sorted_similar_movies = sorted(similar_movies,key=lambda x:x[1],reverse=True)
+print(sorted_similar_movies[0][1])
+print(sorted_similar_movies[1][1])
+
+
 
 ## Step 8: Print titles of first 50 movies
 movies=''
 i=0
 for element in sorted_similar_movies:
-		# print(get_title_from_index(element[0]))
+	# print(get_title_from_index(element[0]))
 
-		movies = movies + ', ' + get_title_from_index(element[0])
+	movies = movies + ', ' + get_title_from_index(element[0])  + "    (" + str(round(sorted_similar_movies[i][1] * 100,2))+ "%) "
     	
-		i=i+1
-		if i>50:
-			break
+	i=i+1
+	if i>50:
+		break
 
 
 movies = movies[2:]
