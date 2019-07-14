@@ -56,5 +56,9 @@ export class ReviewsService {
     return this.http.get("http://localhost:3001/reviews/getSentimentForSpecificReview/" + title + "/" + author);
   }
 
+  getSentimentById(id_review){
+    return this.http.get("http://localhost:3001/reviews/getSentimentById/" + id_review );
+  }
+
  
 }

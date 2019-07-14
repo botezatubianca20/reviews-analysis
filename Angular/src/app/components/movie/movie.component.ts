@@ -64,13 +64,13 @@ export class MovieComponent implements OnInit {
               //verific daca este in baza de date si daca are review-ul completat
               this.reviewsService.getSentimentForSpecificReview(this.review.media_title, this.review.author).subscribe(response => {
                 if(response[0][0]){
-                  console.log(response[0][0].sentiment);
+                  console.log(response[0][0]);
   
                   if(response[0][0].sentiment != 0){
                     this.show = true;
                     this.finalSentiment = response[0][0].sentiment; 
                     this.finalProcent = +response[0][0].procent;
-                    this.finalProcent = this.finalProcent * 100;
+                    this.finalProcent = (this.finalProcent * 100);
                     console.log(this.finalProcent)
                   }
                   // else{
@@ -112,7 +112,11 @@ export class MovieComponent implements OnInit {
                 this.listOfReviews = reviewResult[0];
                 console.log(this.listOfReviews)
 
-                //pt fiecare review in parte trebuie sa epelez getSentimentForSpecificReview()
+                this.listOfReviews.forEach(element => {
+                  element.procent = (+element.procent * 100).toFixed(2)
+                });
+
+
               }
              
             })
@@ -130,22 +134,26 @@ export class MovieComponent implements OnInit {
 
 
   runAnalysisFunction(){
+    console.log(1)
     // this.runAnalysis = false;
     this.spinner.show();
 
     //sa ruleze partea de python
     //sa ia la final sentimentul din tabela si sa afiseze pe ecran
     if(this.analyze == true){
+      console.log(2)
       this.analyze=false;
       this.reviewsService.runSentimentAnalysis().subscribe(res => {
+        console.log(3)
         console.log("gata")
   
         this.reviewsService.getSentimentOfLastReview().subscribe(resp => {
+          console.log(4)
           // console.log(resp) 
           console.log(resp[0].sentiment)
           this.finalSentiment = resp[0].sentiment;
           this.finalProcent = +resp[0].procent;
-          this.finalProcent = this.finalProcent * 100;
+          this.finalProcent = (this.finalProcent * 100).toFixed(2);
           console.log(this.finalProcent)
           this.show = true;
           this.showAnalysisAfterInsert = true;

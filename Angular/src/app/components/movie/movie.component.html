@@ -71,12 +71,12 @@
           <hr>
           <div *ngIf="review.sentiment === 1">
               <p class="text-justify">
-                  <b>Review-ul este pozitiv!</b> ({{finalProcent}} %)
+                  <b>Review-ul este pozitiv!</b> ({{review.procent}} %)
                 </p>
           </div>
           <div *ngIf="review.sentiment === -1">
               <p class="text-justify">
-                  <b>Review-ul este negativ!</b> ({{finalProcent}} %)
+                  <b>Review-ul este negativ!</b> ({{review.procent}} %)
                 </p>
           </div>
   

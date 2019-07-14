@@ -56,14 +56,15 @@ router.get('/runSentimentAnalysis', (req, res) => {
 
 router.get('/runRecommendationSystem', (req, res) => {
   var spawn = require("child_process").spawn; 
-  var process = spawn('python', ["movie_recommender.py"] );
 
-  process.stdout.on('data', (data) => {
-      res.json({
-        success: true,
-        message: data
-      })
-  });
+    var process = spawn('python', ["movie_recommender.py"] );
+
+    process.stdout.on('data', (data) => {
+        res.json({
+          success: true,
+          message: data
+        })
+    })  
 });
 
 
@@ -182,6 +183,16 @@ router.delete('/deleteReviewAddedByUser/:id_review', (req, res) => {
 
 router.get('/getSentimentForSpecificReview/:media_title/:author', (req, res) => {
   knex.raw("SELECT sentiment, procent FROM `reviews` where media_title='" + req.params.media_title + "' and author = '" + req.params.author + "'")
+        .then((reviews) => {
+            res.send(reviews);
+        })
+        .catch((error) => {
+            res.send(error);
+        })
+});
+
+router.get('/getSentimentById/:id_review', (req, res) => {
+  knex.raw("SELECT sentiment, procent FROM `reviews` where id_review=" + req.params.id_review)
         .then((reviews) => {
             res.send(reviews);
         })
