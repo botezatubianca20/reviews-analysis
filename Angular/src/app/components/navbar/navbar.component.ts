@@ -8,17 +8,17 @@ import { Router, NavigationEnd } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-showLogOut: boolean;
+  showLogOut: boolean;
 
-  constructor(private router:Router) { 
+  constructor(private router: Router) {
     router.events.subscribe(event => {
 
-      if (event instanceof NavigationEnd ) {
-        console.log("current url",event.url); // event.url has current url
+      if (event instanceof NavigationEnd) {
+        console.log("current url", event.url); // event.url has current url
         // your code will goes here
         console.log(localStorage.getItem('name'));
-        if(localStorage.getItem('name') != null){
-          if(event.url == '/recommendation' || event.url == '/home' || event.url == '/search' || event.url == '/genres' || event.url == '/reviews'){
+        if (localStorage.getItem('name') != null) {
+          if (event.url == '/recommendation' || event.url == '/home' || event.url == '/search' || event.url == '/genres' || event.url == '/reviews') {
             this.showLogOut = true;
           }
         }
@@ -27,7 +27,7 @@ showLogOut: boolean;
   }
 
   ngOnInit() {
-    let currentUrl = this.router.url; 
+    let currentUrl = this.router.url;
     console.log(currentUrl)
     if (localStorage.getItem('name') != null) {
       this.showLogOut = true;
@@ -37,7 +37,7 @@ showLogOut: boolean;
 
   }
 
-  ngOnChange(){
+  ngOnChange() {
     if (localStorage.getItem('name') != null) {
       this.showLogOut = true;
       console.log(this.showLogOut)
@@ -45,10 +45,13 @@ showLogOut: boolean;
     }
   }
 
-  logOut(){
+  logOut() {
     localStorage.removeItem('name');
     localStorage.removeItem('email');
     this.showLogOut = false;
   }
+
+
+
 
 }
