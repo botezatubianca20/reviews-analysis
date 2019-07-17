@@ -130,7 +130,7 @@ router.get('/getPositiveReviews', (req, res) => {
         .from('reviews')
         .select('content')
         .where('sentiment', '=', '1')
-        .orderBy('id_review', 'desc')
+        .orderBy('id_review')
         .limit(3)
         .then((sentiment) => {
             res.send(sentiment);
@@ -145,7 +145,7 @@ router.get('/getNegativeReviews', (req, res) => {
         .from('reviews')
         .select('content')
         .where('sentiment', '=', '-1')
-        .orderBy('id_review', 'desc')
+        .orderBy('id_review')
         .limit(3)
         .then((sentiment) => {
             res.send(sentiment);

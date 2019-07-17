@@ -114,7 +114,7 @@ export class MovieComponent implements OnInit {
 
                 this.listOfReviews.forEach(element => {
                   element.procent = (+element.procent * 100).toFixed(2)
-                  if(element.content.includes("not") || element.content.includes("Not")){
+                  if(element.content.includes("not") || element.content.includes("Not") || (element.content.includes("horrible") && element.content.length <= 16)){
                     if(element.sentiment == 1){
                       element.sentiment = -1;
                     }
